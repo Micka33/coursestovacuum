@@ -39,43 +39,50 @@ var log = function(msg) {console.log('['+moment().format('h:mm:ss a')+'] '+msg);
 
 // ASYNC JOBS
 var async             = require('async'),
-    queue             = async.queue,
+    spawn             = require('child_process').spawn
     jobs              = 4;  // typically a command line option, because it is unique
                             // to the machine
 function setup_R_job(opts,done)
 {
+  log('starting '+opts.params.pop());
   var params = opts.params;
-  delete opt['params'];
+  delete opts['params'];
   var R = spawn('phantomjs', params, opts);
+  // R.stdout.on('data',function(buf) {
+  //   console.log("out:"+buf);
+  // });
+  // R.stderr.on('data',function(buf) {
+  //   console.log("err:"+buf);
+  // });
   R.on('exit',function(code)
   {
-    console.log('got exit code: '+code)
+    log('got exit code: '+code)
     if(code==1)
     {
       // do something special
-      // done();
+      done();
     }
     else
     {
-      // done();
+      done();
     }
     return null;
   })
   return null;
 }
-var course_queue=queue(setup_R_job, jobs)
+var course_queue=async.queue(setup_R_job, jobs);
 
 //instaciante jobs
 var jobForCourses = function(urls) {
   // baseline options for every job
-  var opts = { cwd: __dirname,
-               env: process.env,
-               params: ['./getCourseLinks.js','--course']
-             };
   for (var i = urls.length - 1; i >= 0; i--) {
-    var o = _.clone(opts,true)
-    o.params.push(urls[i]);
-    course_queue.push(o)
+    var opts = {  cwd: __dirname,
+                  env: process.env,
+                  params: ['../getCourseLinks.js','--course']
+               };
+    opts.params.push(urls[i]);
+    log("queueing: "+opts.params.join(' '));
+    course_queue.push(opts);
   };
 };
 
@@ -85,20 +92,9 @@ io.sockets.on('connection', function (socket) {
 
   socket.on('course_job', function (data)
   {
-    log('register : '+JSON.stringify(data));
-    jobForCourses(data.urls);
+    if ('urls' in data)
+      jobForCourses(data.urls);
   });
-
-  // socket.on('unregister', function (data)
-  // {
-  //   log('unregister : '+JSON.stringify(data));
-  //   if (data['channels'] && _.isArray(data['channels']))
-  //   {
-  //     _.each(data['channels'], function(channel) {
-  //       socket.leave(pubsub_prefix + channel);
-  //     });
-  //   }
-  // });
 
 });
 

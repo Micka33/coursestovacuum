@@ -111,6 +111,8 @@ var exit = function() {
 };
 page.onConsoleMessage = function(msg, lineNum, sourceId) {
   console.log('CONSOLE: ' + msg + ' (from line #' + lineNum + ' in "' + sourceId + '")');
+  if (msg == "exit phantomjs.")
+    window.setTimeout(exit, 2000);
 };
 //
 //
@@ -179,16 +181,20 @@ Object.freeze(args);
 var savecoursejob = function(urls) {
   page.evaluate(function(urls) {
     // $(document).append('<script src="http://localhost:8889/socket.io/socket.io.js"></script>');
+    var id = null;
     var fireWhenReady = function () {
         if (typeof io != 'undefined') {
+          var socket = io.connect('http://localhost:8890/');
           socket.on('connect', function () {
             console.log(JSON.stringify(urls));
             socket.emit('course_job', { urls:urls });
+            console.log("exit phantomjs.");
           });
-          var socket = io.connect('http://localhost:8890/');
+          if (id != null)
+            clearInterval(id);
         }
         else {
-          setTimeout(fireWhenReady, 100);
+          id = setTimeout(fireWhenReady, 100);
         }
     };
     fireWhenReady();
@@ -214,7 +220,6 @@ var getLinks = function()
   var coursesLinks = getCoursesLinks();
   log(coursesLinks.length);
   savecoursejob(coursesLinks);
-  exit();
 }
 var goToCourses = function()
 {
