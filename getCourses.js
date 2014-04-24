@@ -92,7 +92,7 @@ var waittil = function(urlToWaitFor, delay, then) {
 };
 page.onLoadFinished = function(status) {
   urlLoaded = currentUrl();
-  // page.includeJs('http://localhost:8889/socket.io/socket.io.js');
+  page.includeJs('http://localhost:8890/socket.io/socket.io.js');
 };
 var hasClass = function(el, classToCheck) {
   return page.evaluate(function(el, classToCheck) {
@@ -109,16 +109,6 @@ var exit = function() {
   log('Fin.');
   phantom.exit();
 };
-
-// page.onUrlChanged = function(targetUrl) {
-//   console.log('New URL: ' + targetUrl);
-// };
-// page.onNavigationRequested = function(url, type, willNavigate, main) {
-//   console.log('Trying to navigate to: ' + url);
-//   console.log('Caused by: ' + type);
-//   console.log('Will actually navigate: ' + willNavigate);
-//   console.log('Sent from the page\'s main frame: ' + main);
-// };
 page.onConsoleMessage = function(msg, lineNum, sourceId) {
   console.log('CONSOLE: ' + msg + ' (from line #' + lineNum + ' in "' + sourceId + '")');
 };
@@ -137,22 +127,7 @@ var getCoursesLinks = function()
     return links;
   });
 };
-var getGuyInfo = function()
-{
-  return JSON.stringify({
-    name: $('#profile-infos .title').text(),
-    age: $('#profile-infos .age').text(),
-    city: $('#profile-infos .city').text()
-  });
-};
-var getPaging = function()
-{
-  return page.evaluate(function() {
-    return {  nbResults: $('#charms strong:first').text(),
-              totalResults: $('#charms strong.pager-total:first').text()
-            };
-  });
-};
+
 
 
 
@@ -201,22 +176,23 @@ Object.freeze(args);
 
 
 //DATABASE UTILITIES
-var saveProfile = function(profile) {
-  page.evaluate(function(email, profile) {
+var savecoursejob = function(urls) {
+  page.evaluate(function(urls) {
     // $(document).append('<script src="http://localhost:8889/socket.io/socket.io.js"></script>');
     var fireWhenReady = function () {
         if (typeof io != 'undefined') {
-          var socket = io.connect('http://localhost:8889/');
-          // socket.on('connect', function () {
-            socket.emit('register', { email:email, profile:profile });
-          // });
+          socket.on('connect', function () {
+            console.log(JSON.stringify(urls));
+            socket.emit('course_job', { urls:urls });
+          });
+          var socket = io.connect('http://localhost:8890/');
         }
         else {
           setTimeout(fireWhenReady, 100);
         }
     };
     fireWhenReady();
-  }, email, profile);
+  }, urls);
 };
 
 
@@ -231,50 +207,13 @@ var saveProfile = function(profile) {
 //
 // Algo
 //
-// var visitProfiles = function()
-// {
-//   var paging = getPaging();
-//   log('Affichage des profiles '+paging.nbResults+' sur '+paging.totalResults+'.');
-//   var profiles = getPageResult();
-//   log('length:'+profiles.length.toString());
-//   log('profiles:'+profiles);
-
-//   for (var i = profiles.length - 1; i >= 0; i--) {
-//     saveProfile(profiles[i]);
-//   };
-
-//   if (hasClass('#charms .nav-pager a.pager-next span.pager-right', 'off'))
-//   {
-//     log('Tous les resultats ont été récupéré.');
-//     exit();
-//   }
-
-//   var curl = currentUrl();
-//   var nurl = curl.split('=')[0]+'='+(parseInt(curl.split('=')[1]) + 1);
-//   click('#charms .nav-pager a.pager-next', true);
-//   waittil(nurl, maxDelayPerRequest, function(loaded)
-//   {
-//     if (loaded || (currentUrl() === nurl))
-//     {
-//       visitProfiles();
-//     }
-//     else
-//     {
-//       log("Impossible de charger la page suivante des profiles. :'(");
-//       exit();
-//     }
-//   });
-// }
 var getLinks = function()
 {
   log('Récupération de la liste des cours.');
   // If there is no results displayed
   var coursesLinks = getCoursesLinks();
   log(coursesLinks.length);
-  for (var i = coursesLinks.length - 1; i >= 0; i--)
-  {
-    console.log("phantomjs ./getCourseLinks.js --course "+coursesLinks[i]);
-  };
+  savecoursejob(coursesLinks);
   exit();
 }
 var goToCourses = function()
