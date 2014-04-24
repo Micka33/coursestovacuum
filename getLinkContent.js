@@ -107,7 +107,7 @@ var waittilelementhasclass = function(element, classToCheck, delay, then, params
 };
 page.onLoadFinished = function(status) {
   urlLoaded = currentUrl();
-  // page.includeJs('http://localhost:8889/socket.io/socket.io.js');
+  page.includeJs('http://localhost:8890/socket.io/socket.io.js');
 };
 var hasClass = function(el, classToCheck) {
   return page.evaluate(function(el, classToCheck) {
@@ -136,6 +136,8 @@ var exit = function() {
 // };
 page.onConsoleMessage = function(msg, lineNum, sourceId) {
   console.log('CONSOLE: ' + msg + ' (from line #' + lineNum + ' in "' + sourceId + '")');
+  if (msg == "exit phantomjs.")
+    window.setTimeout(exit, 2000);
 };
 //
 //
@@ -183,29 +185,29 @@ var courseLink = (args.link != undefined)?(args.link):(args.l);
 
 
 
-
-
-
-
 //DATABASE UTILITIES
-var saveProfile = function(profile) {
-  page.evaluate(function(email, profile) {
+var saveCourse = function(courses) {
+  page.evaluate(function(courses) {
     // $(document).append('<script src="http://localhost:8889/socket.io/socket.io.js"></script>');
+    var id = null;
     var fireWhenReady = function () {
         if (typeof io != 'undefined') {
-          var socket = io.connect('http://localhost:8889/');
-          // socket.on('connect', function () {
-            socket.emit('register', { email:email, profile:profile });
-          // });
+          if (id != null)
+            clearInterval(id);
+          var socket = io.connect('http://localhost:8890/');
+          socket.on('connect', function () {
+            console.log(courses);
+            socket.emit('save_content', { courses:JSON.parse(courses) });
+            console.log("exit phantomjs.");
+          });
         }
         else {
-          setTimeout(fireWhenReady, 100);
+          id = setTimeout(fireWhenReady, 100);
         }
     };
     fireWhenReady();
-  }, email, profile);
+  }, JSON.stringify(courses));
 };
-
 
 
 
@@ -257,19 +259,17 @@ var getParts = function(nbParts, content)
     waittilelementhasclass(element, "active", maxDelayPerRequest, function()
     {
       content.parts.push(getPart());
-      log("No have "+content.parts.length.toString()+" parts pushed inside.");
+      log("Now have "+content.parts.length.toString()+" parts pushed inside.");
       getParts(nbParts - 1, content);
     });
   }
   else if (nbParts == 0)
-  {
-      console.log(JSON.stringify(content));
-      exit();
-  }
+    saveCourse(content)
 }
 var crawl = function()
 {
-  var content = {chapter:null, parts:[]}
+  var content = {course_name:null, chapter:null, parts:[]}
+  content.course_name = page.evaluate(function(sel){return $(sel).text().replace(/\n/gi, '').trim();}, 'header.global h2');
   content.chapter = getText('.chapter.is-open li.active a').replace(', current section', '').replace(/[\n]/ig, '').trim();
   var nbParts = page.evaluate(function(sel){return $(sel).length;}, '#sequence-list li');
   getParts(nbParts, content);

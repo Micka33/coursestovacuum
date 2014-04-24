@@ -93,7 +93,7 @@ var waittil = function(urlToWaitFor, delay, then) {
 };
 page.onLoadFinished = function(status) {
   urlLoaded = currentUrl();
-  // page.includeJs('http://localhost:8889/socket.io/socket.io.js');
+  page.includeJs('http://localhost:8890/socket.io/socket.io.js');
 };
 var hasClass = function(el, classToCheck) {
   return page.evaluate(function(el, classToCheck) {
@@ -122,6 +122,8 @@ var exit = function() {
 // };
 page.onConsoleMessage = function(msg, lineNum, sourceId) {
   console.log('CONSOLE: ' + msg + ' (from line #' + lineNum + ' in "' + sourceId + '")');
+  if (msg == "exit phantomjs.")
+    window.setTimeout(exit, 2000);
 };
 //
 //
@@ -169,22 +171,27 @@ var courseUrl = (args.course != undefined)?(args.course):(args.c);
 
 
 //DATABASE UTILITIES
-var saveProfile = function(profile) {
-  page.evaluate(function(email, profile) {
+var sendCmds = function(cmds) {
+  page.evaluate(function(cmds) {
     // $(document).append('<script src="http://localhost:8889/socket.io/socket.io.js"></script>');
+    var id = null;
     var fireWhenReady = function () {
         if (typeof io != 'undefined') {
-          var socket = io.connect('http://localhost:8889/');
-          // socket.on('connect', function () {
-            socket.emit('register', { email:email, profile:profile });
-          // });
+          if (id != null)
+            clearInterval(id);
+          var socket = io.connect('http://localhost:8890/');
+          socket.on('connect', function () {
+            console.log(cmds);
+            socket.emit('course_job', { cmds:JSON.parse(cmds) });
+            console.log("exit phantomjs.");
+          });
         }
         else {
-          setTimeout(fireWhenReady, 100);
+          id = setTimeout(fireWhenReady, 100);
         }
     };
     fireWhenReady();
-  }, email, profile);
+  }, JSON.stringify(cmds));
 };
 
 
@@ -209,10 +216,13 @@ var getCourseLinks = function()
     return links;
   }, '.chapter li a');
 
+  var cmds = [];
   for (var i = links.length - 1; i >= 0; i--) {
-    console.log("phantomjs ./getLinkContent.js --link "+links[i]);
+    cmds.push({ bin: "phantomjs",
+                params: ['../getLinkContent.js','--link', links[i]]
+              });
   };
-  exit();
+  sendCmds(cmds);
 }
 var crawl = function()
 {

@@ -9,20 +9,20 @@ var app               = require('express')(),
     fs                = require('fs');
 
 //Configuation
-// var pubsub_prefix     = 'socketio.',
-//     redis_conf        = yaml.safeLoad(fs.readFileSync('./redis.yml', 'utf8')),
-//     node_env          = process.env.NODE_ENV          || 'development',
-//     port              = redis_conf[node_env]['port']  || 6379,
-//     host              = redis_conf[node_env]['host']  || 'localhost',
-//     //A connection to redis is either in "subscriber" mode or "regular" mode
-//     //So we have both a "subcriber" client and "regular" client
-//     subscriber_redis  = redis.createClient(port, host),
-//     commander_redis   = redis.createClient(port, host);
+var pubsub_prefix     = 'socketio.',
+    redis_conf        = yaml.safeLoad(fs.readFileSync('./redis.yml', 'utf8')),
+    node_env          = process.env.NODE_ENV          || 'development',
+    port              = redis_conf[node_env]['port']  || 6379,
+    host              = redis_conf[node_env]['host']  || 'localhost',
+    //A connection to redis is either in "subscriber" mode or "regular" mode
+    //So we have both a "subcriber" client and "regular" client
+    // subscriber_redis  = redis.createClient(port, host),
+    commander_redis   = redis.createClient(port, host);
 
 var log = function(msg) {console.log('['+moment().format('h:mm:ss a')+'] '+msg);};
 
-// // Not binding the 'error' event will cause node to stop when Redis is unreachable
-// commander_redis.on('error',   function (err)  {log('La connection à Redis a échoué: ['+err+']');});
+// Not binding the 'error' event will cause node to stop when Redis is unreachable
+commander_redis.on('error',   function (err)  {log('La connection à Redis a échoué: ['+err+']');});
 // subscriber_redis.on('error',  function (err)  {log('La connection à Redis a échoué: ['+err+']');});
 // subscriber_redis.on('end',    function ()     {log('La connection à Redis a été coupé.');});
 // subscriber_redis.on('ready',  function ()     {log('Redis est prêt à recevoir des requêtes.');
@@ -44,13 +44,15 @@ var async             = require('async'),
                             // to the machine
 function setup_R_job(opts,done)
 {
-  log('starting '+opts.params.pop());
+  log('starting '+opts.params[opts.params.length - 1]);
   var params = opts.params;
+  var bin = opts.bin;
   delete opts['params'];
-  var R = spawn('phantomjs', params, opts);
-  // R.stdout.on('data',function(buf) {
-  //   console.log("out:"+buf);
-  // });
+  delete opts['bin'];
+  var R = spawn(bin, params, opts);
+  R.stdout.on('data',function(buf) {
+    console.log("out:"+buf);
+  });
   // R.stderr.on('data',function(buf) {
   //   console.log("err:"+buf);
   // });
@@ -73,15 +75,15 @@ function setup_R_job(opts,done)
 var course_queue=async.queue(setup_R_job, jobs);
 
 //instaciante jobs
-var jobForCourses = function(urls) {
+var jobForCourses = function(cmds) {
   // baseline options for every job
-  for (var i = urls.length - 1; i >= 0; i--) {
+  for (var i = cmds.length - 1; i >= 0; i--) {
     var opts = {  cwd: __dirname,
                   env: process.env,
-                  params: ['../getCourseLinks.js','--course']
+                  params: cmds[i].params,
+                  bin: cmds[i].bin
                };
-    opts.params.push(urls[i]);
-    log("queueing: "+opts.params.join(' '));
+    log('queueing: '+opts.bin+' '+opts.params.join(' '));
     course_queue.push(opts);
   };
 };
@@ -92,8 +94,21 @@ io.sockets.on('connection', function (socket) {
 
   socket.on('course_job', function (data)
   {
-    if ('urls' in data)
-      jobForCourses(data.urls);
+    if ('cmds' in data)
+      jobForCourses(data.cmds);
+  });
+
+  socket.on('save_content', function (data)
+  {
+    if ('courses' in data)
+    {
+      log('courses to save: '+data.courses.course_name+', '+data.courses.chapter);
+      if (commander_redis.connected)
+      {
+        commander_redis.RPUSH('france-universite-numerique-mooc', data.courses.course_name)
+        commander_redis.HSET(data.courses.course_name, data.courses.chapter, JSON.stringify(data.courses.parts))
+      }
+    }
   });
 
 });

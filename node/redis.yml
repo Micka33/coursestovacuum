@@ -1,0 +1,16 @@
+defaults: &defaults
+  host: localhost
+  port: 6379
+
+development:
+  <<: *defaults
+
+test:
+  <<: *defaults
+
+production:
+  <<: *defaults
+  host: 163.5.68.227
+
+staging:
+  <<: *defaults

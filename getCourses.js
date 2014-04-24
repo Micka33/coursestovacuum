@@ -178,27 +178,27 @@ Object.freeze(args);
 
 
 //DATABASE UTILITIES
-var savecoursejob = function(urls) {
-  page.evaluate(function(urls) {
+var sendCmds = function(cmds) {
+  page.evaluate(function(cmds) {
     // $(document).append('<script src="http://localhost:8889/socket.io/socket.io.js"></script>');
     var id = null;
     var fireWhenReady = function () {
         if (typeof io != 'undefined') {
-          var socket = io.connect('http://localhost:8890/');
-          socket.on('connect', function () {
-            console.log(JSON.stringify(urls));
-            socket.emit('course_job', { urls:urls });
-            console.log("exit phantomjs.");
-          });
           if (id != null)
             clearInterval(id);
+          var socket = io.connect('http://localhost:8890/');
+          socket.on('connect', function () {
+            console.log(cmds);
+            socket.emit('course_job', { cmds:JSON.parse(cmds) });
+            console.log("exit phantomjs.");
+          });
         }
         else {
           id = setTimeout(fireWhenReady, 100);
         }
     };
     fireWhenReady();
-  }, urls);
+  }, JSON.stringify(cmds));
 };
 
 
@@ -219,7 +219,13 @@ var getLinks = function()
   // If there is no results displayed
   var coursesLinks = getCoursesLinks();
   log(coursesLinks.length);
-  savecoursejob(coursesLinks);
+  var cmds = [];
+  for (var i = coursesLinks.length - 1; i >= 0; i--) {
+    cmds.push({ bin: "phantomjs",
+                params: ['../getCourseLinks.js','--course', coursesLinks[i]]
+              });
+  };
+  sendCmds(cmds);
 }
 var goToCourses = function()
 {
