@@ -15,7 +15,7 @@ my_app.factory('$socket', ['$rootScope', function ($rootScope) {
     },
     on: function (eventName, callback) {
       if (typeof socket != 'undefined')
-        socket.on(eventName, function () {  
+        socket.on(eventName, function () {
           var args = arguments;
           $rootScope.$apply(function () {
             callback.apply(socket, args);
@@ -89,7 +89,6 @@ my_app.factory('$entries', ['$socket', function($socket)
   this.listenForParts = function(callback)
   {
     $socket.on('parts', function(data) {
-      console.log(data);
       var replies = [];
       data.replies[0] = JSON.parse(data.replies[0]);
       callback(data.replies[0]);
@@ -99,12 +98,9 @@ my_app.factory('$entries', ['$socket', function($socket)
   {
     $socket.emit('redis_command', {chan:'parts', redis:['HGET', course, chapter]});
   };
-
-
-
   this.savePartsIn = function(course, chapter, parts, callback)
   {
-    $socket.emit('redis_command', {chan:'parts', redis:['HSET', course, chapter, JSON.stringify(parts)]}, callback);
+    $socket.emit('redis_command', {chan:'nowere', redis:['HSET', course, chapter, JSON.stringify(parts)]}, callback);
   };
 
 
@@ -204,8 +200,9 @@ my_app.controller('coursesController', ['$scope', '$entries', function($scope, $
   }
 
   $scope.deletePart = function(index) {
-    delete $scope.parts[index];
-    $entries.savePartsIn(current_course, current_chapter, $scope.parts, function() {
+    $scope.parts.splice(index, 1);
+    $entries.savePartsIn(current_course, current_chapter, $scope.parts, function()
+    {
       $entries.askForPartsIn(current_course, current_chapter);
     });
   }
@@ -215,10 +212,10 @@ my_app.controller('coursesController', ['$scope', '$entries', function($scope, $
 
 
 
-my_app.controller('chaptersController', ['$scope', '$entries', function($scope, $entries)
-{
+// my_app.controller('chaptersController', ['$scope', '$entries', function($scope, $entries)
+// {
 
-}]);
+// }]);
 
 
 

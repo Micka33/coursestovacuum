@@ -114,7 +114,7 @@ io.sockets.on('connection', function (socket) {
     }
   });
 
-  socket.on('redis_command', function (data)
+  socket.on('redis_command', function (data, fn)
   {
     if ('redis' in data)
     {
@@ -126,7 +126,11 @@ io.sockets.on('connection', function (socket) {
           if (err)
             socket.emit('redis_command_disapproved', {id:data.chan, err:err});
           else
+          {
             socket.emit(data.chan, {replies:replies});
+            if ((fn != null) && (typeof fn != 'undefined'))
+              fn('ok');
+          }
         });
       }
     }
