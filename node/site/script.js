@@ -60,6 +60,14 @@ my_app.factory('$entries', ['$socket', function($socket)
     $socket.emit('redis_command', {chan:'courses', redis:['LRANGE', 'france-universite-numerique-mooc', 0, -1]});
   };
 
+  this.deleteCourse = function(coursename)
+  {
+    $socket.emit('redis_command', {chan:'nowere', redis:['DEL', coursename]});
+  };
+  this.deleteListCourse = function()
+  {
+    $socket.emit('redis_command', {chan:'nowere', redis:['DEL', 'france-universite-numerique-mooc']});
+  };
 
 
   this.listenForChapters = function(callback)
@@ -201,16 +209,20 @@ my_app.controller('coursesController', ['$scope', '$entries', function($scope, $
 
   $scope.deletePart = function(index) {
     $scope.parts.splice(index, 1);
-    $entries.savePartsIn(current_course, current_chapter, $scope.parts, function()
-    {
+    $entries.savePartsIn(current_course, current_chapter, $scope.parts, function() {
       $entries.askForPartsIn(current_course, current_chapter);
     });
   }
 
+  $scope.deleteList = function(index) {
+    for (var i = $scope.courses.length - 1; i >= 0; i--) {
+      $entries.deleteCourse($scope.courses[i].name);
+      $scope.courses.splice(i, 1);
+    };
+    $entries.deleteListCourse();
+  }
+
 }]);
-
-
-
 
 // my_app.controller('chaptersController', ['$scope', '$entries', function($scope, $entries)
 // {
