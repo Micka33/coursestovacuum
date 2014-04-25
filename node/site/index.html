@@ -1,0 +1,69 @@
+<!doctype html>
+<html ng-app="app">
+  <head>
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css" type="text/css">
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap-theme.min.css" type="text/css">
+    <link rel="stylesheet" href="/angular-csp.css" type="text/css">
+    <link rel="stylesheet" href="/script.css" type="text/css">
+  </head>
+  <body ng-controller="coursesController">
+
+
+
+    <nav class="navbar navbar-default" role="navigation">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <!-- <a class="navbar-brand" href="#">Brand</a> -->
+      </div>
+      <!-- Collect the nav links, forms, and other content for toggling -->
+      <div class="collapse navbar-collapse navbar-ex1-collapse">
+        <div class="form-group">
+          <button type="submit" class="btn btn-default" ng-click="refreshListCourses()">Refresh List</button>
+        </div>
+        <ul class="nav navbar-nav">
+          <li ng-repeat="course in courses" ng-click="selectCourse(course)" ng-class="(course.active) ? ('active') : ('')">
+            <a href="#">{{course.name}}</a>
+          </li>
+        </ul>
+<!--         <form class="navbar-form navbar-left" role="search">
+          <div class="form-group">
+            <input type="text" class="form-control" placeholder="Search">
+          </div>
+          <button type="submit" class="btn btn-default">Submit</button>
+        </form>
+ -->      </div><!-- /.navbar-collapse -->
+    </nav>
+
+    <div class="content">
+      <ul class="nav nav-pills">
+        <li ng-repeat="chapter in chapters" ng-click="selectChapter(chapter)" ng-class="(chapter.active) ? ('active') : ('')">
+          <a href="#">{{chapter.name}}</a>
+        </li>
+      </ul>
+      <div class="container-fluid" ng-repeat="part in parts" ng-click="deletePart($index)">
+        <div class="row">{{part.title}}</div>
+        <div class="row">{{part.videos}}</div>
+        <div class="row">{{part.content}}</div>
+      </div>
+
+    </div>
+
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/jquery-2.1.0.js"></script>
+    <script src="/greensock-v12-js/src/minified/TweenMax.min.js"></script>
+    <script src="/greensock-v12-js/src/minified/jquery.gsap.min.js"></script>
+    <script src="/bootstrap/js/bootstrap.min.js"></script>
+    <script src="/angular_1.2.16.js"></script>
+    <script src="/angular-animate.js"></script>
+    <script src="/angular-sanitize.js"></script>
+    <script src="/angular-touch.js"></script>
+    <script src="/ui-bootstrap-tpls-0.10.0.js"></script>
+    <script src="/script.js"></script>
+  </body>
+</html>

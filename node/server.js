@@ -1,5 +1,6 @@
 //Dependencies
-var app               = require('express')(),
+var express           = require('express'),
+    app               = express(),
     _                 = require('underscore'),
     server            = require('http').createServer(app),
     io                = require('socket.io').listen(server),
@@ -7,6 +8,8 @@ var app               = require('express')(),
     moment            = require('moment'),
     yaml              = require('js-yaml'),
     fs                = require('fs');
+
+app.use(express.static(__dirname+"/site"));
 
 //Configuation
 var pubsub_prefix     = 'socketio.',
@@ -50,9 +53,9 @@ function setup_R_job(opts,done)
   delete opts['params'];
   delete opts['bin'];
   var R = spawn(bin, params, opts);
-  R.stdout.on('data',function(buf) {
-    console.log("out:"+buf);
-  });
+  // R.stdout.on('data',function(buf) {
+  //   console.log("out:"+buf);
+  // });
   // R.stderr.on('data',function(buf) {
   //   console.log("err:"+buf);
   // });
@@ -107,6 +110,24 @@ io.sockets.on('connection', function (socket) {
       {
         commander_redis.RPUSH('france-universite-numerique-mooc', data.courses.course_name)
         commander_redis.HSET(data.courses.course_name, data.courses.chapter, JSON.stringify(data.courses.parts))
+      }
+    }
+  });
+
+  socket.on('redis_command', function (data)
+  {
+    if ('redis' in data)
+    {
+      log('redis command to execute['+data.chan+']:  '+data.redis.join(' '));
+      if (commander_redis.connected)
+      {
+        commander_redis.multi([ data.redis ]).exec(function (err, replies)
+        {
+          if (err)
+            socket.emit('redis_command_disapproved', {id:data.chan, err:err});
+          else
+            socket.emit(data.chan, {replies:replies});
+        });
       }
     }
   });

@@ -226,7 +226,7 @@ var getCourseLinks = function()
 }
 var crawl = function()
 {
-  if (hasDiv('.main-cta .register.disabled'))
+  if (hasDiv('.main-cta .register.disabled') && hasDiv('.main-cta > a'))
   {
     log(url+getHref('.main-cta a'));
     page.open(url+getHref('.main-cta a'), function()

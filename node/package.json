@@ -1,0 +1,24 @@
+{
+  "name": "vacuumnodeserver",
+  "version": "0.0.0",
+  "description": "",
+  "main": "server.js",
+  "dependencies": {
+    "async": "~0.7.0",
+    "js-yaml": "~3.0.2",
+    "minimist": "~0.0.8",
+    "moment": "~2.6.0",
+    "http": "~0.0.0",
+    "socket.io": "~0.9.16",
+    "express": "~4.0.0",
+    "redis": "~0.10.1",
+    "underscore": "~1.6.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "node server.js",
+    "start": "node server.js"
+  },
+  "author": "Micka33",
+  "license": "The Artistic License 2.0"
+}
