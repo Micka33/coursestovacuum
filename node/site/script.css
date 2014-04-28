@@ -46,11 +46,11 @@
   .content {
     width: 70%;
   }
-  .container-fluid {
+  .part {
     border-bottom: 2px solid #CCC;
     cursor: pointer;
   }
-  .container-fluid:hover {
+  .part:hover {
     background-color: #E7E7E7;
   }
 }

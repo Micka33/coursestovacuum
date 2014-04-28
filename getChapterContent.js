@@ -105,6 +105,18 @@ var waittilelementhasclass = function(element, classToCheck, delay, then, params
   },
   200);
 };
+var waittime = function(delay, then, params) {
+  var start = moment();
+  var intervalID = window.setInterval(function()
+  {
+    if (moment().diff(start, 'seconds') > delay)
+    {
+      clearInterval(intervalID);
+      then(params);
+    }
+  },
+  200);
+};
 page.onLoadFinished = function(status) {
   urlLoaded = currentUrl();
   page.includeJs('http://localhost:8890/socket.io/socket.io.js');
@@ -212,7 +224,11 @@ var saveCourse = function(courses) {
 
 
 
-
+// phantomjs getChapterContent.js --link /courses/VirchowVillerme/06003/Trimestre_1_2014/courseware/ec69233ec6bb476ab86a54905374a0c0/e16432570f3545f786cb6c7691e648b6/
+// phantomjs getChapterContent.js --link /courses/VirchowVillerme/06003/Trimestre_1_2014/courseware/ec69233ec6bb476ab86a54905374a0c0/be73cc6ee4b44a1086cdca336bd68ef3/
+// phantomjs getChapterContent.js --link /courses/VirchowVillerme/06003/Trimestre_1_2014/courseware/ec69233ec6bb476ab86a54905374a0c0/607e2e313ac24291a939c151b2da947a/
+// phantomjs getChapterContent.js --link /courses/VirchowVillerme/06003/Trimestre_1_2014/courseware/ec69233ec6bb476ab86a54905374a0c0/83471a2b41a140c78565c5f3dbb60796/
+// phantomjs getChapterContent.js --link /courses/VirchowVillerme/06003/Trimestre_1_2014/courseware/ec69233ec6bb476ab86a54905374a0c0/8de414dd64e045a099c0555975bbe106/
 
 
 
@@ -230,19 +246,26 @@ var getPart = function()
                         });
                         return hash;
                       })(),
-              content:(function(){
-                        id_to_remove = [];
-                        $('.course-content .vert-mod li[data-id*="video"]').each(function(index, element){
-                          id_to_remove.push(element.id);
-                        });
-                        text = [];
-                        $('.course-content .vert-mod li').each(function(index, element){
-                          if ((id_to_remove.indexOf(element.id) < 0) &&
-                              ($(element).text().indexOf("<article class=\"discussion-article\"") < 0))
-                            text.push($(element).text().trim());
-                        });
-                        return text;
-                      })()
+              videosub: (function(){
+                          var text = '';
+                          $('ol.subtitles.html5 li').each(function(i, el) {
+                           text += ' '+$(el).text();
+                          });
+                          return text;
+                        })(),
+              html:(function(){
+                      id_to_remove = [];
+                      $('.course-content .vert-mod li[data-id*="video"]').each(function(index, element){
+                        id_to_remove.push(element.id);
+                      });
+                      html = [];
+                      $('.course-content .vert-mod li').each(function(index, element){
+                        if ((id_to_remove.indexOf(element.id) < 0) &&
+                            ($(element).text().indexOf("<article class=\"discussion-article\"") < 0))
+                          html.push($(element).html());
+                      });
+                      return html;
+                    })()
     }
   });
 }
@@ -254,13 +277,15 @@ var getParts = function(nbParts, content)
   if (nbParts > 0)
   {
     var element = "#sequence-list li:nth-child("+(nbParts).toString()+") a";
-    log(nbParts);
     click(element, true);
     waittilelementhasclass(element, "active", maxDelayPerRequest, function()
     {
-      content.parts.push(getPart());
-      log("Now have "+content.parts.length.toString()+" parts pushed inside.");
-      getParts(nbParts - 1, content);
+      waittime(2, function()
+      {
+        content.parts.push(getPart());
+        log("Now have "+content.parts.length.toString()+" parts pushed inside.");
+        getParts(nbParts - 1, content);
+      });
     });
   }
   else if (nbParts == 0)
@@ -269,8 +294,9 @@ var getParts = function(nbParts, content)
 var crawl = function()
 {
   var content = {course_name:null, chapter:null, parts:[]}
-  content.course_name = page.evaluate(function(sel){return $(sel).text().replace(/\n/gi, '').trim();}, 'header.global h2');
-  content.chapter = getText('.chapter.is-open li.active a').replace(', current section', '').replace(/[\n]/ig, '').trim();
+  content.course_name = getText('header.global h2').replace(/&nbsp;/gi, ' ').replace(/\n/gi, '').trim();
+  content.session = getText('.chapter.is-open h3').replace(/&nbsp;/gi, ' ').replace(/\n/gi, '').trim()
+  content.chapter = getText('.chapter.is-open li.active a').replace(', current section', '').replace(/&nbsp;/gi, ' ').replace(/\n/ig, '').trim();
   var nbParts = page.evaluate(function(sel){return $(sel).length;}, '#sequence-list li');
   getParts(nbParts, content);
 }

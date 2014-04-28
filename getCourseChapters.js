@@ -219,7 +219,7 @@ var getCourseLinks = function()
   var cmds = [];
   for (var i = links.length - 1; i >= 0; i--) {
     cmds.push({ bin: "phantomjs",
-                params: ['../getLinkContent.js','--link', links[i]]
+                params: ['../getChapterContent.js','--link', links[i]]
               });
   };
   sendCmds(cmds);

@@ -43,7 +43,7 @@ commander_redis.on('error',   function (err)  {log('La connection à Redis a éc
 // ASYNC JOBS
 var async             = require('async'),
     spawn             = require('child_process').spawn
-    jobs              = 4;  // typically a command line option, because it is unique
+    jobs              = 6;  // typically a command line option, because it is unique
                             // to the machine
 function setup_R_job(opts,done)
 {
@@ -109,7 +109,8 @@ io.sockets.on('connection', function (socket) {
       if (commander_redis.connected)
       {
         commander_redis.RPUSH('france-universite-numerique-mooc', data.courses.course_name)
-        commander_redis.HSET(data.courses.course_name, data.courses.chapter, JSON.stringify(data.courses.parts))
+        commander_redis.RPUSH(data.courses.course_name, data.courses.course_name+'[_-_]'+data.courses.session)
+        commander_redis.HSET(data.courses.course_name+'[_-_]'+data.courses.session, data.courses.chapter, JSON.stringify(data.courses.parts))
       }
     }
   });

@@ -222,7 +222,7 @@ var getLinks = function()
   var cmds = [];
   for (var i = coursesLinks.length - 1; i >= 0; i--) {
     cmds.push({ bin: "phantomjs",
-                params: ['../getCourseLinks.js','--course', coursesLinks[i]]
+                params: ['../getCourseChapters.js','--course', coursesLinks[i]]
               });
   };
   sendCmds(cmds);
