@@ -247,11 +247,19 @@ var getPart = function()
                         return hash;
                       })(),
               videosub: (function(){
-                          var text = '';
-                          $('ol.subtitles.html5 li').each(function(i, el) {
-                           text += ' '+$(el).text();
-                          });
-                          return text;
+                          var sel = '.course-content .vert-mod li[data-id*="video"] .video';
+                          if ($(sel).attr('data-caption-asset-path') != undefined)
+                            return {
+                              urljson: $(sel).attr('data-caption-asset-path')+$(sel).attr('data-sub')+'.srt.sjson',
+                              json:'',
+                              text:''
+                            };
+                          return null;
+                          // var text = '';
+                          // $('.course-content .vert-mod li[data-id*="video"] ol.subtitles.html5 li').each(function(i, el) {
+                          //  text += ' '+$(el).text();
+                          // });
+                          // return text;
                         })(),
               html:(function(){
                       id_to_remove = [];
@@ -280,12 +288,9 @@ var getParts = function(nbParts, content)
     click(element, true);
     waittilelementhasclass(element, "active", maxDelayPerRequest, function()
     {
-      waittime(2, function()
-      {
-        content.parts.push(getPart());
-        log("Now have "+content.parts.length.toString()+" parts pushed inside.");
-        getParts(nbParts - 1, content);
-      });
+      content.parts.push(getPart());
+      log("Now have "+content.parts.length.toString()+" parts pushed inside.");
+      getParts(nbParts - 1, content);
     });
   }
   else if (nbParts == 0)

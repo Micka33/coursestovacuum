@@ -53,12 +53,12 @@ function setup_R_job(opts,done)
   delete opts['params'];
   delete opts['bin'];
   var R = spawn(bin, params, opts);
-  // R.stdout.on('data',function(buf) {
-  //   console.log("out:"+buf);
-  // });
-  // R.stderr.on('data',function(buf) {
-  //   console.log("err:"+buf);
-  // });
+  R.stdout.on('data',function(buf) {
+    // console.log("out:"+buf);
+  });
+  R.stderr.on('data',function(buf) {
+    // console.log("err:"+buf);
+  });
   R.on('exit',function(code)
   {
     log('got exit code: '+code)

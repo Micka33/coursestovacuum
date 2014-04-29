@@ -136,35 +136,6 @@ my_app.factory('$entries', ['$socket', '$sce', function($socket, $sce)
 }]);
 
 
-
-// my_app.directive('watchPublicationState', ['$socket', function($socket) {
-//   return {
-//     restrict: 'A',
-//     // priority: 0,
-//     scope: {
-//       onDelete: '@',
-//       pubid: '@watchPublicationState'
-//     },
-//     link: function ($scope, $element, $attrs)
-//     {
-//       var socketHandler = function() {
-//         $socket.emit('register', {channels:[$scope.pubid]});
-//         $socket.on('message', function(msg)
-//         {
-//           msg = JSON.parse(msg);
-//           if (('news' in msg) && ('type' in msg.news) && (msg.news.type == 'pubdeletion'))
-//             //Temporary solution
-//             //To fix
-//             window.location.replace($scope.onDelete);
-//         });
-//       };
-//       socketHandler();
-//       $socket.on('connect', socketHandler);
-//     }
-//   };
-// }]);
-
-
 my_app.controller('coursesController', ['$scope', '$entries', function($scope, $entries)
 {
   $scope.courses = [];
