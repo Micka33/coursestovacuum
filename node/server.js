@@ -29,7 +29,7 @@ commander_redis.on('error',   function (err)  {log('La connection à Redis a éc
 // ASYNC JOBS
 var async             = require('async'),
     spawn             = require('child_process').spawn,
-    jobs              = 6;  // typically a command line option, because it is unique
+    jobs              = 1;  // typically a command line option, because it is unique
                             // to the machine
 function setup_job(opts, done)
 {
