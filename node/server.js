@@ -57,6 +57,7 @@ function setup_job(opts, done)
       done();
     return null;
   });
+  commander_redis.HSET('coursestovacuum_jobs', field, true);
   return null;
 }
 var course_queue=async.queue(setup_job, jobs);
@@ -70,7 +71,7 @@ var jobForCourses = function(cmds) {
                   params: cmds[i].params,
                   bin: cmds[i].bin
                };
-    commander_redis.HSET('coursestovacuum_jobs', opts.bin+' '+opts.params.join(' '), true);
+    commander_redis.HSET('coursestovacuum_jobs', opts.bin+' '+opts.params.join(' '), false);
     log('queueing: '+opts.bin+' '+opts.params.join(' '));
     course_queue.push(opts);
   };
