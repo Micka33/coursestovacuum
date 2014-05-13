@@ -1,5 +1,8 @@
+#!/bin/sh
 gem install redis
 gem install yaml
+gem install oj
+gem install elasticsearch
 npm install
 cd node
 npm install

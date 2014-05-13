@@ -3,7 +3,6 @@
 
 var email = 'ericgay@yopmail.com';
 var pwd = 'Ericgay94';
-var sParProfile = 60;
 var maxDelayPerRequest = 30;
 var url = 'https://www.france-universite-numerique-mooc.fr';
 
@@ -26,7 +25,6 @@ var webpage = require('webpage'),
 // UTILITY
 //
 var total = 0;
-var subtotal = 0;
 var current = 0;
 var urlLoaded = null;
 var log = function(msg)
@@ -55,7 +53,7 @@ var fillAndsubmit = function(form, names) {
   {
     for (var i = names.length - 1; i >= 0; i--)
     {
-      selector = form+' [name='+names[i][0]+']';
+      var selector = form+' [name='+names[i][0]+']';
       if ($(selector).is('select'))
         $(selector+" option").filter(function() {
           return $.trim($(this).text()) === $.trim(names[i][1]);
@@ -119,7 +117,7 @@ var waittime = function(delay, then, params) {
 };
 page.onLoadFinished = function(status) {
   urlLoaded = currentUrl();
-  page.includeJs('http://localhost:8890/socket.io/socket.io.js');
+  page.includeJs('http://localhost:8811/socket.io/socket.io.js');
 };
 var hasClass = function(el, classToCheck) {
   return page.evaluate(function(el, classToCheck) {
@@ -137,17 +135,8 @@ var exit = function() {
   phantom.exit();
 };
 
-// page.onUrlChanged = function(targetUrl) {
-//   console.log('New URL: ' + targetUrl);
-// };
-// page.onNavigationRequested = function(url, type, willNavigate, main) {
-//   console.log('Trying to navigate to: ' + url);
-//   console.log('Caused by: ' + type);
-//   console.log('Will actually navigate: ' + willNavigate);
-//   console.log('Sent from the page\'s main frame: ' + main);
-// };
 page.onConsoleMessage = function(msg, lineNum, sourceId) {
-  console.log('CONSOLE: ' + msg + ' (from line #' + lineNum + ' in "' + sourceId + '")');
+//  console.log('CONSOLE: ' + msg + ' (from line #' + lineNum + ' in "' + sourceId + '")');
   if (msg == "exit phantomjs.")
     window.setTimeout(exit, 2000);
 };
@@ -200,17 +189,15 @@ var courseLink = (args.link != undefined)?(args.link):(args.l);
 //DATABASE UTILITIES
 var saveCourse = function(courses) {
   page.evaluate(function(courses) {
-    // $(document).append('<script src="http://localhost:8889/socket.io/socket.io.js"></script>');
     var id = null;
     var fireWhenReady = function () {
         if (typeof io != 'undefined') {
           if (id != null)
             clearInterval(id);
-          var socket = io.connect('http://localhost:8890/');
+          var socket = io.connect('http://localhost:8811/');
           socket.on('connect', function () {
-            console.log(courses);
             socket.emit('save_content', { courses:JSON.parse(courses) });
-            console.log("exit phantomjs.");
+            console.log('exit phantomjs.');
           });
         }
         else {
@@ -262,11 +249,11 @@ var getPart = function()
                           // return text;
                         })(),
               html:(function(){
-                      id_to_remove = [];
+                      var id_to_remove = [];
                       $('.course-content .vert-mod li[data-id*="video"]').each(function(index, element){
                         id_to_remove.push(element.id);
                       });
-                      html = [];
+                      var html = [];
                       $('.course-content .vert-mod li').each(function(index, element){
                         if ((id_to_remove.indexOf(element.id) < 0) &&
                             ($(element).text().indexOf("<article class=\"discussion-article\"") < 0))

@@ -3,8 +3,9 @@
 
 var email = 'ericgay@yopmail.com';
 var pwd = 'Ericgay94';
-var sParProfile = 60;
 var maxDelayPerRequest = 30;
+var url = 'https://www.france-universite-numerique-mooc.fr';
+
 
 var webpage = require('webpage'),
     page    = webpage.create(),
@@ -25,7 +26,6 @@ var webpage = require('webpage'),
 // UTILITY
 //
 var total = 0;
-var subtotal = 0;
 var current = 0;
 var urlLoaded = null;
 var log = function(msg)
@@ -54,20 +54,16 @@ var fillAndsubmit = function(form, names) {
   {
     for (var i = names.length - 1; i >= 0; i--)
     {
-      selector = form+' [name='+names[i][0]+']';
+      var selector = form+' [name='+names[i][0]+']';
       if ($(selector).is('select'))
         $(selector+" option").filter(function() {
           return $.trim($(this).text()) === $.trim(names[i][1]);
         }).prop('selected', true);
       else if ($(selector).is('input'))
         $(selector).val(names[i][1]);
-    };
+    }
     $(form).submit();
   }, form, names);
-};
-var printScreen = function(screenpage, name)
-{
-  screenpage.render(name+'.jpeg', {format: 'jpeg', quality: '100'});
 };
 var currentUrl = function() {
   return page.evaluate(function(){return window.location.href;});
@@ -92,7 +88,7 @@ var waittil = function(urlToWaitFor, delay, then) {
 };
 page.onLoadFinished = function(status) {
   urlLoaded = currentUrl();
-  page.includeJs('http://localhost:8890/socket.io/socket.io.js');
+  page.includeJs('http://localhost:8811/socket.io/socket.io.js');
 };
 var hasClass = function(el, classToCheck) {
   return page.evaluate(function(el, classToCheck) {
@@ -110,7 +106,7 @@ var exit = function() {
   phantom.exit();
 };
 page.onConsoleMessage = function(msg, lineNum, sourceId) {
-  console.log('CONSOLE: ' + msg + ' (from line #' + lineNum + ' in "' + sourceId + '")');
+//  console.log('CONSOLE: ' + msg + ' (from line #' + lineNum + ' in "' + sourceId + '")');
   if (msg == "exit phantomjs.")
     window.setTimeout(exit, 2000);
 };
@@ -144,16 +140,6 @@ var getCoursesLinks = function()
 
 
 
-// if (((args.password == undefined) && (args.p == undefined)) ||
-//     ((args.email == undefined) && (args.e == undefined)))
-// {
-//   console.log('Usage: crawl.js --password secret --email you@email.com');
-//   console.log('       crawl.js -p secret -e you@email.com');
-//   exit();
-// }
-// email = btoa((args.email != undefined)?(args.email):(args.e));
-// pwd = btoa((args.password != undefined)?(args.password):(args.p));
-
 //Clearing args parameter from memory and freezing it, since we won't use it anymore.
 args.email = 'nothingtoseeherejustclearing1thistobesurenoonereaditinmemory';
 args.e = 'nothingtoseeherejustclearingthis2tobesurenoonereaditinmemory';
@@ -180,17 +166,15 @@ Object.freeze(args);
 //DATABASE UTILITIES
 var sendCmds = function(cmds) {
   page.evaluate(function(cmds) {
-    // $(document).append('<script src="http://localhost:8889/socket.io/socket.io.js"></script>');
     var id = null;
     var fireWhenReady = function () {
         if (typeof io != 'undefined') {
           if (id != null)
             clearInterval(id);
-          var socket = io.connect('http://localhost:8890/');
+          var socket = io.connect('http://localhost:8811/');
           socket.on('connect', function () {
-            console.log(cmds);
             socket.emit('course_job', { cmds:JSON.parse(cmds) });
-            console.log("exit phantomjs.");
+            console.log('exit phantomjs.');
           });
         }
         else {
@@ -218,20 +202,19 @@ var getLinks = function()
   log('Récupération de la liste des cours.');
   // If there is no results displayed
   var coursesLinks = getCoursesLinks();
-  log(coursesLinks.length);
   var cmds = [];
   for (var i = coursesLinks.length - 1; i >= 0; i--) {
     cmds.push({ bin: "phantomjs",
                 params: ['../getCourseChapters.js','--course', coursesLinks[i]]
               });
-  };
+  }
   sendCmds(cmds);
-}
+};
 var goToCourses = function()
 {
   log('Affichage des cours.');
   click('body > header > nav > ol.left.nav-global.authenticated > li > ul > li:nth-child(3) > a');
-  waittil('https://www.france-universite-numerique-mooc.fr/courses', maxDelayPerRequest, function(loaded)
+  waittil(url+'/courses', maxDelayPerRequest, function(loaded)
   {
     if (loaded)
       getLinks();
@@ -241,7 +224,7 @@ var goToCourses = function()
       exit();
     }
   });
-}
+};
 var signIn = function()
 {
   log('Connexion en tant que '+email+'.');
@@ -250,14 +233,14 @@ var signIn = function()
      ['password', pwd]
     ]
   );
-  waittil('https://www.france-universite-numerique-mooc.fr/dashboard', maxDelayPerRequest, function()
+  waittil(url+'/dashboard', maxDelayPerRequest, function()
   {
     log('Connexion réussie ! :D');
     goToCourses();
   });
-}
+};
 
 
 
 
-page.open("https://www.france-universite-numerique-mooc.fr/login",signIn);
+page.open(url+'/login',signIn);

@@ -2,7 +2,7 @@
 
 require 'redis'
 require 'yaml'
-require 'json'
+require 'oj'
 
 require 'net/http'
 require 'uri'
@@ -33,17 +33,33 @@ chapters = keys.map do |el|
   end
 end
 
+cmds = []
 chapters.flatten.each do |chapter|
-  puts chapter[:parts]
-  parts = JSON.parse(chapter[:parts])
+  parts = Oj.load(chapter[:parts])
   newparts = parts.map do |part|
     unless part['videosub'].nil? || part['videosub'].empty? || part['videosub']['urljson'].include?('undefined')
-      response = JSON.parse(open(url+part['videosub']['urljson']))
-      text = response['text'].join(' ').gsub(%r{</?[^>]+?>}, '').gsub(/\n/, ' ')
-      part['videosub']['text'] = text
-      part['videosub']['json'] = response
+      response = open(url+part['videosub']['urljson'])
+      if part['videosub']['urljson'] == '/c4x/VirchowVillerme/05001/asset/subs_C001AF-W3-E3-FR.srt.sjson'
+        response = response.gsub(',"', '",').gsub('"A la semaine prochaine.  Au revoir.', '"A la semaine prochaine.  Au revoir."')
+      end
+      begin
+        response = Oj.load(response)
+        text = response['text'].join(' ').gsub(%r{</?[^>]+?>}, '').gsub(/\n/, ' ')
+        part['videosub']['text'] = text
+        part['videosub']['json'] = response
+      rescue
+      end
     end
     part
   end
-  redis.HSET(chapter[:hash], chapter[:key], JSON.generate(newparts))
+  cmds << {hash:chapter[:hash], key:chapter[:key], content:Oj.dump(newparts)}
 end
+
+ret = redis.pipelined do
+  cmds.each do |cmd|
+    p "HSET '#{cmd[:hash]}' '#{cmd[:key]}' cmd[:content]"
+    redis.HSET(cmd[:hash], cmd[:key], cmd[:content])
+  end
+end
+
+ret.each{|r| p r}
