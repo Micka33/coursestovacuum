@@ -98,7 +98,7 @@ var waittilelementhasclass = function(element, classToCheck, delay, then, params
       )
     {
       clearInterval(intervalID);
-      then(params);
+      then(params, hasClass(element, classToCheck));
     }
   },
   200);
@@ -198,24 +198,32 @@ var saveCourse = function(crs)
   {
     var courses = JSON.parse(base);
     courses.parts = JSON.parse(parts)
+
+    // if there is nothing to save then leave
+    // how can that happen ? no idea.
+    if ((courses.course_name.length == 0) || (courses.chapter.length == 0) || (courses.session.length == 0))
+      log('exit phantomjs.');
+
     var id = null;
     var fireWhenReady = function ()
     {
-      if (typeof io != 'undefined')
+        console.log('io: '+typeof io);
+      if (typeof io == 'undefined')
+        id = setTimeout(fireWhenReady, 100);
+      else
       {
         if (id != null)
           clearTimeout(id);
         var socket = io.connect('http://localhost:8811/');
         socket.on('connect', function ()
         {
-          socket.emit('save_content', { courses:JSON.parse(courses) });
+          socket.emit('save_content', { courses:courses });
           console.log('exit phantomjs.');
         });
       }
-      else
-        id = setTimeout(fireWhenReady, 100);
     };
     fireWhenReady();
+    //So it does'nt block the other threads
   }, JSON.stringify(base), JSON.stringify(parts));
 
 };
@@ -285,18 +293,26 @@ var getParts = function(nbParts, content)
   {
     var element = "#sequence-list li:nth-child("+(nbParts).toString()+") a";
     click(element, true);
-    waittilelementhasclass(element, "active", maxDelayPerRequest, function()
+    log('Clicking '+element);
+    waittilelementhasclass(element, "active", maxDelayPerRequest, function(params, succeded)
     {
-      content.parts.push(getPart());
-      log("Now have "+content.parts.length.toString()+" parts pushed inside.");
+      if (succeded)
+      {
+          content.parts.push(getPart());
+          log("Now have " + content.parts.length.toString() + " parts pushed inside.");
+      }
       getParts(nbParts - 1, content);
     });
   }
-  else if (nbParts == 0)
-    saveCourse(content)
+  else if (nbParts == 0) {
+      saveCourse(content);
+      log('end');
+
+  }
 };
 var crawl = function()
 {
+  log('Crawling '+courseLink);
   var content = {course_name:null, chapter:null, parts:[]};
   content.course_name = getText('header.global h2').replace(/&nbsp;/gi, ' ').replace(/\n/gi, '').trim();
   content.session = getText('.chapter.is-open h3').replace(/&nbsp;/gi, ' ').replace(/\n/gi, '').trim();
