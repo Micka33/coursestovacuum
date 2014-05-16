@@ -42,7 +42,8 @@ function setup_job(opts, done)
   var R = spawn(bin, params, opts);
   R.stdout.on('data',function(buf) {});
   R.stderr.on('data',function(buf) {});
-  R.on('exit',function(code)
+  R.on('error',function(err) {console.log(err)});
+  R.on('exit' ,function(code)
   {
     log('got exit code: '+code)
     commander_redis.HDEL('coursestovacuum_jobs', field, function() {
