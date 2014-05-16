@@ -170,7 +170,7 @@ var sendCmds = function(cmds) {
     var fireWhenReady = function () {
         if (typeof io != 'undefined') {
           if (id != null)
-            clearInterval(id);
+              clearTimeout(id);
           var socket = io.connect('http://localhost:8811/');
           socket.on('connect', function () {
             socket.emit('course_job', { cmds:JSON.parse(cmds) });
