@@ -42,7 +42,7 @@ function setup_job(opts, done)
   var R = spawn(bin, params, opts);
   R.stdout.on('data',function(buf) {});
   R.stderr.on('data',function(buf) {});
-  R.on('error',function(err) {console.log(err)});
+  R.on('error',function(err) {log('It is most likely that phantomjs is not installed.');console.log(err);});
   R.on('exit' ,function(code)
   {
     log('got exit code: '+code)
