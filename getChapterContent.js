@@ -202,7 +202,7 @@ var saveCourse = function(crs)
     // if there is nothing to save then leave
     // how can that happen ? no idea.
     if ((courses.course_name.length == 0) || (courses.chapter.length == 0) || (courses.session.length == 0))
-      log('exit phantomjs.');
+      console.log('exit phantomjs.');
 
     var id = null;
     var fireWhenReady = function ()
