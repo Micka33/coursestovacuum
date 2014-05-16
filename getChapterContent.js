@@ -136,7 +136,7 @@ var exit = function() {
 };
 
 page.onConsoleMessage = function(msg, lineNum, sourceId) {
-//  console.log('CONSOLE: ' + msg + ' (from line #' + lineNum + ' in "' + sourceId + '")');
+  console.log('CONSOLE: ' + msg + ' (from line #' + lineNum + ' in "' + sourceId + '")');
   if (msg == "exit phantomjs.")
     window.setTimeout(exit, 2000);
 };
@@ -187,25 +187,37 @@ var courseLink = (args.link != undefined)?(args.link):(args.l);
 
 
 //DATABASE UTILITIES
-var saveCourse = function(courses) {
-  page.evaluate(function(courses) {
+var saveCourse = function(crs)
+{
+  // Separating base and parts, having all of it together causes issues.
+  // Why? Because of reasons.
+  var parts = crs.parts;
+  var base = crs;
+  delete base.parts;
+  page.evaluate(function(base, parts)
+  {
+      var courses = JSON.parse(base);
+      courses.parts = JSON.parse(parts)
     var id = null;
-    var fireWhenReady = function () {
-        if (typeof io != 'undefined') {
-          if (id != null)
-            clearInterval(id);
-          var socket = io.connect('http://localhost:8811/');
-          socket.on('connect', function () {
-            socket.emit('save_content', { courses:JSON.parse(courses) });
-            console.log('exit phantomjs.');
-          });
-        }
-        else {
-          id = setTimeout(fireWhenReady, 100);
-        }
+    var fireWhenReady = function ()
+    {
+      if (typeof io != 'undefined')
+      {
+        if (id != null)
+          clearTimeout(id);
+        var socket = io.connect('http://localhost:8811/');
+        socket.on('connect', function ()
+        {
+          socket.emit('save_content', { courses:JSON.parse(courses) });
+          console.log('exit phantomjs.');
+        });
+      }
+      else
+        id = setTimeout(fireWhenReady, 100);
     };
     fireWhenReady();
-  }, JSON.stringify(courses));
+  }, JSON.stringify(base), JSON.stringify(parts));
+
 };
 
 
@@ -282,7 +294,7 @@ var getParts = function(nbParts, content)
   }
   else if (nbParts == 0)
     saveCourse(content)
-}
+};
 var crawl = function()
 {
   var content = {course_name:null, chapter:null, parts:[]}
@@ -291,12 +303,12 @@ var crawl = function()
   content.chapter = getText('.chapter.is-open li.active a').replace(', current section', '').replace(/&nbsp;/gi, ' ').replace(/\n/ig, '').trim();
   var nbParts = page.evaluate(function(sel){return $(sel).length;}, '#sequence-list li');
   getParts(nbParts, content);
-}
+};
 var goToCourse = function()
 {
   log('Ouverture de '+courseLink+'.');
   page.open(url+courseLink, crawl);
-}
+};
 var signIn = function()
 {
   log('Connexion en tant que '+email+'.');
@@ -310,7 +322,7 @@ var signIn = function()
     log('Connexion réussie ! :D');
     goToCourse();
   });
-}
+};
 
 
 
