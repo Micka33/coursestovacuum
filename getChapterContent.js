@@ -196,8 +196,8 @@ var saveCourse = function(crs)
   delete base.parts;
   page.evaluate(function(base, parts)
   {
-      var courses = JSON.parse(base);
-      courses.parts = JSON.parse(parts)
+    var courses = JSON.parse(base);
+    courses.parts = JSON.parse(parts)
     var id = null;
     var fireWhenReady = function ()
     {
@@ -297,9 +297,9 @@ var getParts = function(nbParts, content)
 };
 var crawl = function()
 {
-  var content = {course_name:null, chapter:null, parts:[]}
+  var content = {course_name:null, chapter:null, parts:[]};
   content.course_name = getText('header.global h2').replace(/&nbsp;/gi, ' ').replace(/\n/gi, '').trim();
-  content.session = getText('.chapter.is-open h3').replace(/&nbsp;/gi, ' ').replace(/\n/gi, '').trim()
+  content.session = getText('.chapter.is-open h3').replace(/&nbsp;/gi, ' ').replace(/\n/gi, '').trim();
   content.chapter = getText('.chapter.is-open li.active a').replace(', current section', '').replace(/&nbsp;/gi, ' ').replace(/\n/ig, '').trim();
   var nbParts = page.evaluate(function(sel){return $(sel).length;}, '#sequence-list li');
   getParts(nbParts, content);
