@@ -44,7 +44,8 @@ function launch_job(opts, done)
             {
                 log('got exit code: '+code);
                 if (opts.key != 'none')// If we are not executing [getSubtitles.rb]
-                    commander_redis.HDEL('coursestovacuum_jobs', opts.key, function() {
+                    commander_redis.HDEL('coursestovacuum_jobs', [opts.key], function(err, nb_affected_rows) {
+                        log('['+opts.key+'] is done.('+err+', '+nb_affected_rows+')');
                         commander_redis.HLEN('coursestovacuum_jobs', function(err, len) {
                             if (len == 0)
                                 queue_job({params: '../getSubtitles.rb', bin: 'ruby', key:'none'});
@@ -76,29 +77,28 @@ var queue_job = function(cmd)
      bin: cmds[i].bin
      }
      */
-    cmd.cwd = __dirname;
-    cmd.env = process.env;
-    job_queue.push(cmd);
-    log('queued['+cmd.state+']: '+cmd.bin+' '+cmd.params.join(' '));
+    cmd.state = 'queued';
+    commander_redis.hset('coursestovacuum_jobs', cmd.key, JSON.stringify(cmd), function(err, nb_affected_rows)
+    {
+        if (err == null)
+        {
+            cmd.cwd = __dirname;
+            cmd.env = process.env;
+            job_queue.push(cmd);
+            log('queued[' + cmd.state + ']: ' + cmd.bin + ' ' + cmd.params.join(' '));
+        }
+    });
 };
 
 var fetch_and_instanciate_jobs = function(values_to_launch) {
     commander_redis.HGETALL('coursestovacuum_jobs', function(err, jobs)
     {
-        var multi = commander_redis.multi();
         for (var key in jobs)
         {
             cmd = JSON.parse( jobs[key]);
             if (jobs.hasOwnProperty(key) && (_.indexOf(values_to_launch, cmd.state) != -1))
-            {
-                cmd.state = 'queued';
-                multi.hset('coursestovacuum_jobs', key, JSON.stringify(cmd), function(err, nb_affected_rows)
-                {
-                    if (err == null) queue_job(cmd);
-                });
-            }
+                queue_job(cmd);
         }
-        multi.exec();
     });
 };
 
