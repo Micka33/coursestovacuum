@@ -29,7 +29,7 @@ subscriber_redis.on('error',  function (err)  {log('La connection à Redis a éc
 var stackJobs = function(cmds) {
   // baseline options for every job
   for (var i = cmds.length - 1; i >= 0; i--) {
-    var key = crypto.createHash('md5').update(JSON.stringify(opts.params)).digest("hex");
+    var key = crypto.createHash('md5').update(JSON.stringify(cmds[i].params)).digest("hex");
     var opts = {  params: cmds[i].params,
                   bin: cmds[i].bin,
                   state: 'not queued',
