@@ -16,6 +16,9 @@ var redis_conf        = yaml.safeLoad(fs.readFileSync('../node/redis.yml', 'utf8
 var log = function(msg) {console.log('['+moment().format('h:mm:ss a')+'] '+msg);};
 var runningJobs = [];
 
+log('Connect on redis '+host+':'+port);
+
+
 // Not binding the 'error' event will cause node to stop when Redis is unreachable
 commander_redis.on('error',   function (err)  {log('La connection à Redis a échoué: ['+err+']');});
 subscriber_redis.on('error',  function (err)  {log('La connection à Redis a échoué: ['+err+']');});
@@ -23,7 +26,7 @@ subscriber_redis.on('error',  function (err)  {log('La connection à Redis a éc
 // ASYNC JOBS
 var async             = require('async'),
     spawn             = require('child_process').spawn,
-    jobs              = 10;  // typically a command line option, because it is unique
+    jobs              = 1;  // typically a command line option, because it is unique
 // to the machine
 function launch_job(opts, done)
 {
