@@ -3,42 +3,38 @@ var _                 = require('underscore'),
     redis             = require('redis'),
     moment            = require('moment'),
     yaml              = require('js-yaml'),
-    fs                = require('fs');
+    fs                = require('fs'),
+    crypto            = require('crypto');
 
 //Configuation
-var redis_conf        = yaml.safeLoad(fs.readFileSync('../node/redis.yml', 'utf8')),
+var courses_jobs_key  = 'coursestovacuum_jobs',
+    redis_conf        = yaml.safeLoad(fs.readFileSync('../node/redis.yml', 'utf8')),
     node_env          = process.env.NODE_ENV          || 'development',
     port              = redis_conf[node_env]['port']  || 6379,
     host              = redis_conf[node_env]['host']  || 'localhost',
     commander_redis   = redis.createClient(port, host),
     subscriber_redis  = redis.createClient(port, host);
 
+
 var log = function(msg) {console.log('['+moment().format('h:mm:ss a')+'] '+msg);};
 var runningJobs = [];
 
-log('Connect on redis '+host+':'+port);
-
-
 // Not binding the 'error' event will cause node to stop when Redis is unreachable
-commander_redis.on('error',   function (err)  {log('La connection à Redis a échoué: ['+err+']');});
-subscriber_redis.on('error',  function (err)  {log('La connection à Redis a échoué: ['+err+']');});
+commander_redis.on('error',   function (err)  {log('[commander_redis] La connection à Redis a échoué: ['+err+']');});
+subscriber_redis.on('error',  function (err)  {log('[subscriber_redis] La connection à Redis a échoué: ['+err+']');});
 
 // ASYNC JOBS
 var async             = require('async'),
     spawn             = require('child_process').spawn,
-    jobs              = 1;  // typically a command line option, because it is unique
-// to the machine
+    max_jobs          = 15;  // typically a command line option, because it is unique to the machine
+
 function launch_job(opts, done)
 {
-    log('starting '+opts.params[opts.params.length - 1]);
+    log('running '+opts.params[opts.params.length - 1]);
     var params = opts.params;
     var bin = opts.bin;
-    var field = {params: params,
-                 bin: bin
-    };
-    delete opts['params'];
-    delete opts['bin'];
-    commander_redis.HSET('coursestovacuum_jobs', JSON.stringify(field), 'running', function(err, affected_rows) {
+    opts.state = 'running';
+    commander_redis.HSET('coursestovacuum_jobs', opts.key, JSON.stringify(opts), function(err, nb_affected_rows) {
         if (err == null) {
             var R = spawn(bin, params, opts);
             R.stdout.on('data',function(buf) {});
@@ -47,12 +43,13 @@ function launch_job(opts, done)
             R.on('exit' ,function(code)
             {
                 log('got exit code: '+code);
-                commander_redis.HDEL('coursestovacuum_jobs', JSON.stringify(field), function() {
-                    commander_redis.HLEN('coursestovacuum_jobs', function(err, len) {
-                        if ((len == 0) && (field.bin != 'ruby'))
-                            queue_job([{params:'../getSubtitles.rb', bin: 'ruby'}]);
+                if (opts.key != 'none')// If we are not executing [getSubtitles.rb]
+                    commander_redis.HDEL('coursestovacuum_jobs', opts.key, function() {
+                        commander_redis.HLEN('coursestovacuum_jobs', function(err, len) {
+                            if (len == 0)
+                                queue_job({params: '../getSubtitles.rb', bin: 'ruby', key:'none'});
+                        });
                     });
-                });
                 if(code==1) {
                     done();
                 }
@@ -66,7 +63,7 @@ function launch_job(opts, done)
     });
     return null;
 }
-var course_queue=async.queue(launch_job, jobs);
+var job_queue=async.queue(launch_job, max_jobs);
 
 
 
@@ -81,28 +78,31 @@ var queue_job = function(cmd)
      */
     cmd.cwd = __dirname;
     cmd.env = process.env;
-    course_queue.push(cmd);
-    log('queued['+jobs[key]+']: '+cmd.bin+' '+cmd.params.join(' '));
+    job_queue.push(cmd);
+    log('queued['+cmd.state+']: '+cmd.bin+' '+cmd.params.join(' '));
 };
 
 var fetch_and_instanciate_jobs = function(values_to_launch) {
     commander_redis.HGETALL('coursestovacuum_jobs', function(err, jobs)
     {
-        for (var key in jobs) {
-            if (jobs.hasOwnProperty(key) && (_.indexOf(values_to_launch, jobs[key]) != -1)) {
-                log(jobs[key]+":"+key);
-                commander_redis.HSET('coursestovacuum_jobs', key, 'queued', function(err, affected_rows)
+        var multi = commander_redis.multi();
+        for (var key in jobs)
+        {
+            cmd = JSON.parse( jobs[key]);
+            if (jobs.hasOwnProperty(key) && (_.indexOf(values_to_launch, cmd.state) != -1))
+            {
+                cmd.state = 'queued';
+                multi.hset('coursestovacuum_jobs', key, JSON.stringify(cmd), function(err, nb_affected_rows)
                 {
-                    if (err == null)
-                      queue_job(JSON.parse(key));
+                    if (err == null) queue_job(cmd);
                 });
             }
         }
+        multi.exec();
     });
 };
 
-
-subscriber_redis.on('ready',  function ()     {log('subscriber_redis est prêt à recevoir des requêtes.');
+subscriber_redis.on('ready',  function ()  {log('subscriber_redis est prêt à recevoir des requêtes.');
 
     subscriber_redis.on('message', function(channel) {
         if (channel == 'coursestovacuum_jobs')

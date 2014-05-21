@@ -3,7 +3,7 @@
 
 var email = 'ericgay@yopmail.com';
 var pwd = 'Ericgay94';
-var maxDelayPerRequest = 30;
+var maxDelayPerRequest = 60;
 var url = 'https://www.france-universite-numerique-mooc.fr';
 
 

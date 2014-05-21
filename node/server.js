@@ -7,7 +7,8 @@ var express           = require('express'),
     redis             = require('redis'),
     moment            = require('moment'),
     yaml              = require('js-yaml'),
-    fs                = require('fs');
+    fs                = require('fs'),
+    crypto            = require('crypto');
 
 //Configuation
 var pubsub_prefix     = 'socketio.',
@@ -28,10 +29,13 @@ subscriber_redis.on('error',  function (err)  {log('La connection à Redis a éc
 var stackJobs = function(cmds) {
   // baseline options for every job
   for (var i = cmds.length - 1; i >= 0; i--) {
+    var key = crypto.createHash('md5').update(JSON.stringify(opts.params)).digest("hex");
     var opts = {  params: cmds[i].params,
-                  bin: cmds[i].bin
+                  bin: cmds[i].bin,
+                  state: 'not queued',
+                  key: key
                };
-    commander_redis.HSET('coursestovacuum_jobs', JSON.stringify(opts), 'not queued');
+    commander_redis.HSET('coursestovacuum_jobs', key, JSON.stringify(opts));
     subscriber_redis.publish('coursestovacuum_jobs', 'New job available');
     log('registered: '+opts.bin+' '+opts.params.join(' '));
   }
