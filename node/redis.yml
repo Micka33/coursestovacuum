@@ -10,7 +10,6 @@ test:
 
 production:
   <<: *defaults
-  host: 163.5.68.227
 
 staging:
   <<: *defaults
