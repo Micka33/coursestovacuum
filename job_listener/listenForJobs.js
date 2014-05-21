@@ -87,7 +87,7 @@ var fetch_and_instanciate_jobs = function(values_to_launch) {
     {
         for (var key in jobs) {
             if (jobs.hasOwnProperty(key) && (_.indexOf(values_to_launch, jobs[key]) != -1)) {
-                log(jobs[key]);
+                log(jobs[key]+":"+key);
                 commander_redis.HSET('coursestovacuum_jobs', key, 'queued', function(err, affected_rows)
                 {
                     if (err == null)
