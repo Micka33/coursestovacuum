@@ -1,0 +1,23 @@
+=== puma startup: 2014-05-23 14:18:41 +0200 ===
+=== puma startup: 2014-05-23 14:26:24 +0200 ===
+[22635] + Gemfile in context: /home/micka/EDX/coursestovacuum/rails/elasticsearh_api/Gemfile
+[22632] - Worker 0 (pid: 22635) booted, phase: 0
+[22641] + Gemfile in context: /home/micka/EDX/coursestovacuum/rails/elasticsearh_api/Gemfile
+[22632] - Worker 1 (pid: 22641) booted, phase: 0
+[22632] * phased-restart called but not available, restarting normally.
+[22632] - Gracefully shutting down workers...
+[22632] * Restarting...
+[22632] Puma starting in cluster mode...
+[22632] * Version 2.8.2 (ruby 2.1.2-p95), codename: Sir Edmund Percival Hillary
+[22632] * Min threads: 1, max threads: 16
+[22632] * Environment: production
+[22632] * Process workers: 2
+[22632] * Preloading application
+2014-05-23T12:40:28Z 22632 TID-k5m3k INFO: Sidekiq client with redis options {:url=>"redis://localhost:6379/0", :namespace=>"popeye", :size=>nil}
+[22632] * Inherited unix:////home/micka/EDX/coursestovacuum/rails/elasticsearh_api/config/../tmp/sockets/production.sock
+[22632] * Daemonizing...
+=== puma startup: 2014-05-23 14:40:28 +0200 ===
+[23492] + Gemfile in context: /home/micka/EDX/coursestovacuum/rails/elasticsearh_api/Gemfile
+[23489] - Worker 0 (pid: 23492) booted, phase: 0
+[23498] + Gemfile in context: /home/micka/EDX/coursestovacuum/rails/elasticsearh_api/Gemfile
+[23489] - Worker 1 (pid: 23498) booted, phase: 0
