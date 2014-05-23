@@ -16,11 +16,9 @@ class HomeController < ApplicationController
     render json: {params: search_params, result:Mongoid::Elasticsearch.search(search_params)}
   end
 
-
-
   def import_json_file
     courses_json = JSON.parse( File.read('datas.json')  )
-    ret = Courses.create(courses_json)
+    ret = Course.create(courses_json)
     render json: {ret: ret, courses:courses_json}
   end
   # Course.all.as_json.map{|j| j.except("_id")}
