@@ -1,6 +1,6 @@
 :verbose: true
 :pidfile: tmp/pids/sidekiq.pid
-:namespace: popeye
+:namespace: edx
 :url: redis://localhost:6379/0
 development:
   :client_connections: 2
