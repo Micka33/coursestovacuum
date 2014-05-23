@@ -1,0 +1,14 @@
+=== puma startup: 2014-05-23 14:18:41 +0200 ===
+/home/micka/.rvm/gems/ruby-2.1.2/gems/puma-2.8.2/lib/puma/cli.rb:246:in `initialize': No such file or directory @ rb_sysopen - /home/micka/EDX/coursestovacuum/rails/elasticsearh_api/config/../tmp/pids/puma_production.pid (Errno::ENOENT)
+	from /home/micka/.rvm/gems/ruby-2.1.2/gems/puma-2.8.2/lib/puma/cli.rb:246:in `open'
+	from /home/micka/.rvm/gems/ruby-2.1.2/gems/puma-2.8.2/lib/puma/cli.rb:246:in `write_pid'
+	from /home/micka/.rvm/gems/ruby-2.1.2/gems/puma-2.8.2/lib/puma/cli.rb:222:in `write_state'
+	from /home/micka/.rvm/gems/ruby-2.1.2/gems/puma-2.8.2/lib/puma/cluster.rb:332:in `run'
+	from /home/micka/.rvm/gems/ruby-2.1.2/gems/puma-2.8.2/lib/puma/cli.rb:499:in `run'
+	from /home/micka/.rvm/gems/ruby-2.1.2/gems/puma-2.8.2/bin/puma:10:in `<top (required)>'
+	from /home/micka/.rvm/gems/ruby-2.1.2/bin/puma:23:in `load'
+	from /home/micka/.rvm/gems/ruby-2.1.2/bin/puma:23:in `<main>'
+	from /home/micka/.rvm/gems/ruby-2.1.2/bin/ruby_executable_hooks:15:in `eval'
+	from /home/micka/.rvm/gems/ruby-2.1.2/bin/ruby_executable_hooks:15:in `<main>'
+=== puma startup: 2014-05-23 14:26:24 +0200 ===
+=== puma startup: 2014-05-23 14:40:28 +0200 ===
