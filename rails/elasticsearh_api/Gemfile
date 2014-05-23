@@ -54,3 +54,5 @@ gem 'mongoid-elasticsearch'
 gem 'redis'
 
 gem 'httparty'
+
+gem 'puma'
