@@ -56,3 +56,5 @@ gem 'redis'
 gem 'httparty'
 
 gem 'puma'
+
+gem 'sidekiq'

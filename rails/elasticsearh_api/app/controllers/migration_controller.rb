@@ -79,28 +79,12 @@ class MigrationController < ApplicationController
 
 
   def download_videos
-
-
-
-    path = './tmp/videos'
+    nb_worker = 0
     Course.all.each do |course|
-
-      if course.video_url.nil? || course.video_url.empty?
-        output_document = "#{BSON::ObjectId.new.to_s}_mp4_h264_aac_hd.mp4"
-        `wget --output-document="#{path+'/'+output_document}" #{course.video_url_ori}`
-        course.update_attributes(video_url: output_document)
-      end
-
+      DownloadVideo.perform_async(course._id.to_s)
+      nb_worker += 1
     end
-
-
-
-
-
-    render json: {created:1}
-
-
-
+    render json: {nb_worker:nb_worker}
   end
 
 

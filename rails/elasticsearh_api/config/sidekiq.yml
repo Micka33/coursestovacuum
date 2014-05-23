@@ -1,0 +1,9 @@
+:verbose: true
+:pidfile: tmp/pids/sidekiq.pid
+:namespace: popeye
+:url: redis://localhost:6379/0
+development:
+  :client_connections: 2
+production:
+  :concurrency: 5
+  :url: redis://localhost:6379/0

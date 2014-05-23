@@ -19,9 +19,9 @@ class Course
           part:           {type: 'string', index: :not_analyzed},
           video_url_ori:  {type: 'string', index: :not_analyzed},
           video_url:      {type: 'string', index: :not_analyzed},
-          chapter:        {type: 'string', null_value: 'na', boost: 40},
+          course:         {type: 'string', null_value: 'na', boost: 40},
           session:        {type: 'string', null_value: 'na', boost: 60},
-          course:         {type: 'string', null_value: 'na', boost: 80},
+          chapter:        {type: 'string', null_value: 'na', boost: 80},
           subtitle:       {type: 'string', null_value: 'na', boost: 100}
       }
     }
