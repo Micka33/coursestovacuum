@@ -30,13 +30,13 @@ var async             = require('async'),
 
 function launch_job(opts, done)
 {
-    log('running '+opts.params[opts.params.length - 1]);
     var params = opts.params;
     var bin = opts.bin;
     opts.state = 'running';
+    log('running '+opts.key);
     commander_redis.HSET('coursestovacuum_jobs', opts.key, JSON.stringify(opts), function(err, nb_affected_rows) {
         if (err == null) {
-            var R = spawn(bin, params, opts);
+            var R = spawn(bin, params, {cwd: __dirname,env: process.env});
             R.stdout.on('data',function(buf) {});
             R.stderr.on('data',function(buf) {});
             R.on('error',function(err) {log('It is most likely that phantomjs is not installed.');console.log(err);});
@@ -77,15 +77,14 @@ var queue_job = function(cmd)
      bin: cmds[i].bin
      }
      */
+    var oldState = cmd.state;
     cmd.state = 'queued';
     commander_redis.hset('coursestovacuum_jobs', cmd.key, JSON.stringify(cmd), function(err, nb_affected_rows)
     {
         if (err == null)
         {
-            cmd.cwd = __dirname;
-            cmd.env = process.env;
             job_queue.push(cmd);
-            log('queued[' + cmd.state + ']: ' + cmd.bin + ' ' + cmd.params.join(' '));
+            log('queued[' + oldState + ']: ' + cmd.bin + ' ' + cmd.params.join(' '));
         }
     });
 };

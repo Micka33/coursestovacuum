@@ -13,8 +13,8 @@ end
 
 env         = 'development'
 redis_conf  = YAML.load_file(__dir__+"/node/redis.yml")[env]
-port        = redis_conf['port']  || 6379,
-host        = redis_conf['host']  || 'localhost',
+port        = redis_conf['port']  || 6379
+host        = redis_conf['host']  || 'localhost'
 redis       = Redis.new(:host => host, :port => port)
 url         = 'https://www.france-universite-numerique-mooc.fr'
 
@@ -38,7 +38,7 @@ chapters.flatten.each do |chapter|
   parts = Oj.load(chapter[:parts])
   newparts = parts.map do |part|
     unless part['videosub'].nil? || part['videosub'].empty? || part['videosub']['urljson'].include?('undefined')
-      response = open(url+part['videosub']['urljson'])
+      response = open(url+part['videosub']['urljson'].gsub(/\s/, ''))
       if part['videosub']['urljson'] == '/c4x/VirchowVillerme/05001/asset/subs_C001AF-W3-E3-FR.srt.sjson'
         response = response.gsub(',"', '",').gsub('"A la semaine prochaine.  Au revoir.', '"A la semaine prochaine.  Au revoir."')
       end
