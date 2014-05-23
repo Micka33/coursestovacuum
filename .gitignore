@@ -27,3 +27,5 @@ node_modules
 .DS_Store
 /.idea/dictionaries/cassymickael.xml
 /.idea/
+/rails/elasticsearh_api/Gemfile.lock
+/rails/elasticsearh_api/datas.json

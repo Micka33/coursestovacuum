@@ -18,6 +18,17 @@ class HomeController < ApplicationController
 
 
 
+  def import_json_file
+    courses_json = JSON.parse( File.read('datas.json')  )
+    ret = Courses.create(courses_json)
+    render json: {ret: ret, courses:courses_json}
+  end
+  # Course.all.as_json.map{|j| j.except("_id")}
+  # File.open('datas.json', "w+") do |f| f.write( Course.all.as_json.map{|j| j.except("_id")}.to_json ) end
+  # JSON.parse( File.read('datas.json')  ).length
+
+
+
   private
 
   def search_params
