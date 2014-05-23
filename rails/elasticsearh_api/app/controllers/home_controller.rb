@@ -4,12 +4,9 @@ class HomeController < ApplicationController
 
   def index
     nb_videos = 0
-    Course.all.each { |c|
-      unless c.video_url.nil? || c.video_url.empty?
-        nb_videos += 1
-      end
-    }
-    render json: {nb_courses:Course.all.length, nb_videos:nb_videos, courses:Course.all}
+    courses = Course.all.as_json.map{|j| j['_id'] = j['_id'].to_s; j}
+    courses.each { |c| nb_videos += 1 unless c['video_url'].nil? || c['video_url'].empty? }
+    render json: {nb_courses:courses.length, nb_videos:nb_videos, courses:courses}
   end
 
   def search
