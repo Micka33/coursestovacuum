@@ -5,7 +5,7 @@ class HomeController < ApplicationController
   def index
     nb_videos = 0
     courses = Course.all
-    courses.each { |c| nb_videos += 1 unless c.video_url.nil? || cvideo_url.empty? }
+    courses.each { |c| nb_videos += 1 unless c.video_url.nil? || c.video_url.empty? }
     render json: {nb_courses:courses.length, nb_videos:nb_videos, courses:courses}
   end
 
