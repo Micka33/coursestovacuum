@@ -1,8 +1,4 @@
-class Course
-  include Mongoid::Document
-  include Mongoid::Elasticsearch
-  elasticsearch!
-
+class Course < Doc
 
   field :part,          type: String
   field :video_url_ori, type: String
