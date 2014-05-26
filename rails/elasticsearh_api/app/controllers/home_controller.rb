@@ -1,7 +1,5 @@
 class HomeController < ApplicationController
 
-
-
   def index
     nb_videos = 0
     courses = Course.all
@@ -18,11 +16,6 @@ class HomeController < ApplicationController
     ret = Course.create(courses_json)
     render json: {ret: ret, courses:courses_json}
   end
-  # Course.all.as_json.map{|j| j.except("_id")}
-  # File.open('datas.json', "w+") do |f| f.write( Course.all.as_json.map{|j| j.except("_id")}.to_json ) end
-  # JSON.parse( File.read('datas.json')  ).length
-
-
 
   private
 
