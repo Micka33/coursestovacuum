@@ -46,16 +46,17 @@ RUN        ln -s `pwd`/bin/phantomjs /usr/bin/
 
 
 # Creates Redis Service
-RUN mkdir /etc/service/redis
-ADD scripts/redis.sh /etc/service/redis/run
+RUN        mkdir /etc/service/redis
+ADD        scripts/redis.sh /etc/service/redis/run
 
 # Creates ElasticSearch Service
-RUN mkdir /etc/service/elasticsearch
-ADD scripts/elasticsearch.sh /etc/service/elasticsearch/run
+RUN        mkdir /etc/service/elasticsearch
+ADD        scripts/elasticsearch.sh /etc/service/elasticsearch/run
 
 
 
 
-
+# Removes the install folder
+RUN        rm -rf /install
 # Clean up APT when done.
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*

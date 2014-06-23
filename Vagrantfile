@@ -55,7 +55,7 @@ SH
 
     sickrage.vm.network "forwarded_port", guest: 80, host: 8082
 
-    config.vm.synced_folder ".", "/home/vagrant/coursestovacuum"
+    config.vm.synced_folder "docker", "/home/vagrant/coursestovacuum"
 
   end
 
