@@ -39,4 +39,4 @@
   ```
   vagrant ssh
   ```
-5. DONE! You can now use docker!
+5. DONE! You can now use docker! (you will have to run docker commands using `sudo`)
