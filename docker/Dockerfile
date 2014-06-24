@@ -40,7 +40,5 @@ WORKDIR    /root
 
 RUN        echo "\n\nexport LC_CTYPE=en_US.UTF-8\n" >> /root/.bashrc
 
-EXPOSE     8282
-
 # Cleans up APT when done.
 RUN        apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*

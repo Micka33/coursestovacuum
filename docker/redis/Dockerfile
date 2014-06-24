@@ -20,9 +20,8 @@ RUN        ln -s `pwd`/src/redis-benchmark /usr/bin/ && ln -s `pwd`/src/redis-ch
 
 # Creates Redis Service
 RUN        mkdir /etc/service/redis
-ADD        ./redis.sh /etc/service/redis/run
-ADD        ./redis.conf /etc/service/redis/redis.conf
-RUN        chmod +x /etc/service/redis/run
+RUN        mkdir -p /etc/my_init.d
+RUN        echo "chmod +x /datas/config/redis.sh\nln -s /datas/config/redis.sh /etc/service/redis/run\nln -s /datas/config/redis.conf /etc/service/redis/redis.conf\n" > /etc/my_init.d/linking.sh
 
 # Defines /root as the base directory when inspecting
 WORKDIR    /root

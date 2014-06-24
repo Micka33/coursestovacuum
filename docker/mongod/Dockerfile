@@ -14,9 +14,8 @@ RUN \
   apt-get update && \
   apt-get install -y mongodb-org
 
-ADD ./mongodb.conf /root/mongodb.conf
 # Define default command.
-CMD ["mongod", "--config", "/root/mongodb.conf"]
+CMD ["mongod", "--config", "/datas/config/mongodb.conf"]
 
 # Expose ports.
 #   - 27017: process

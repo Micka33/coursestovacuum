@@ -26,7 +26,7 @@ redis:
 edx:
   # docker run --name edx -d -p 0.0.0.0:8282:8282 -v `pwd`/src/:/root/coursestovacuum -v `pwd`/datas/:/datas edx /sbin/my_init --quiet
   build: .
-  command: /sbin/my_init --quiet
+  command: /sbin/my_init --quiet --enable-insecure-key
   volumes:
     - ./datas/:/datas
     - ./src/:/root/coursestovacuum

@@ -16,10 +16,8 @@ RUN \
   mv /tmp/elasticsearch-1.2.1 /elasticsearch
 
 
-
-ADD ./elasticsearch.yml /root/elasticsearch.yml
 # Define default command.
-CMD ["/elasticsearch/bin/elasticsearch", "-Des.config=/root/elasticsearch.yml"]
+CMD ["/elasticsearch/bin/elasticsearch", "-Des.config=/datas/config/elasticsearch.yml"]
 
 
 # Expose ports.
