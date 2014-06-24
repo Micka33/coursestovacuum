@@ -99,7 +99,6 @@ state_path "#{application_path}/tmp/pids/puma_#{railsenv}.state"
 ## (“append”) specifies whether the output is appended, the default is
 ## “false”.
 ##
-## stdout_redirect "/u/apps/lolcat/log/stdout", "/u/apps/lolcat/log/stderr"
 stdout_redirect "#{application_path}/log/puma_#{railsenv}_stdout", "#{application_path}/log/puma_#{railsenv}_stderr", true
 
 
@@ -115,7 +114,8 @@ stdout_redirect "#{application_path}/log/puma_#{railsenv}_stdout", "#{applicatio
 ## bind "ssl://127.0.0.1:9292?key=path_to_key&cert=path_to_cert"
 ##
 # bind "tcp://127.0.0.1:3000"
-bind "unix:///#{application_path}/tmp/sockets/#{railsenv}.sock"
+# bind "unix:///#{application_path}/tmp/sockets/#{railsenv}.sock"
+bind "tcp://0.0.0.0:8282"
 
 
 ## Instead of “bind 'ssl://127.0.0.1:9292?key=path_to_key&cert=path_to_cert'” you

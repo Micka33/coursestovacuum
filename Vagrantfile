@@ -41,6 +41,9 @@ SH
       apt-get -y install git
       # Automatically chdir to vagrant directory upon “vagrant ssh”
       echo "\n\ncd /home/vagrant/coursestovacuum\n" >> /home/vagrant/.bashrc
+      # Installing Fig
+      curl -L https://github.com/orchardup/fig/releases/download/0.4.2/linux > /usr/local/bin/fig
+      chmod +x /usr/local/bin/fig
 SH
 
     vdocker.vm.network "forwarded_port", guest: 8282, host: 8282

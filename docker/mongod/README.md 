@@ -1,0 +1,15 @@
+#Mongod
+
+
+##Build it
+
+```bash
+> sudo docker build --tag mongod .
+```
+
+
+## Run it
+
+```bash
+> docker run -d -p 27017:27017 -v `pwd`/../datas/:/datas --name mongodb mongod
+```
