@@ -1,4 +1,5 @@
-elastic:# docker run -d -p 9200:9200 -p 9300:9300 -v `pwd`/../datas/:/datas --name elastic elastic
+elastic:
+  # docker run -d -p 9200:9200 -p 9300:9300 -v `pwd`/../datas/:/datas --name elastic elastic
   build: ./elasticsearch
   volumes:
     - ../datas/:/datas
@@ -6,21 +7,24 @@ elastic:# docker run -d -p 9200:9200 -p 9300:9300 -v `pwd`/../datas/:/datas --na
     - "9300:9300"
     - "9200:9200"
 
-mongod:# docker run -d -p 27017:27017 -v `pwd`/../datas/:/datas --name mongodb mongod
+mongod:
+  # docker run -d -p 27017:27017 -v `pwd`/../datas/:/datas --name mongodb mongod
   build: ./mongod
   volumes:
     - ../datas/:/datas
   expose:
     - "27017:27017"
 
-redis:# docker run -d -p 6379:6379 -v `pwd`/../datas/:/datas --name redis redis
+redis:
+  # docker run -d -p 6379:6379 -v `pwd`/../datas/:/datas --name redis redis
   build: ./redis
   volumes:
     - ../datas/:/datas
   expose:
     - "6379:6379"
 
-edx:# docker run --name edx -d -p 0.0.0.0:8282:8282 -v `pwd`/src/:/root/coursestovacuum -v `pwd`/datas/:/datas edx /sbin/my_init --quiet
+edx:
+  # docker run --name edx -d -p 0.0.0.0:8282:8282 -v `pwd`/src/:/root/coursestovacuum -v `pwd`/datas/:/datas edx /sbin/my_init --quiet
   build: .
   command: /sbin/my_init --quiet
   volumes:
