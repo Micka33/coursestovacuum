@@ -21,12 +21,11 @@ RUN        mkdir install
 WORKDIR    /install
 RUN        (wget http://nodejs.org/dist/v0.10.29/node-v0.10.29-linux-x64.tar.gz) && (tar -xzf node-v0.10.29-linux-x64.tar.gz) && (rm node-v0.10.29-linux-x64.tar.gz)
 WORKDIR    /install/node-v0.10.29-linux-x64
-RUN        ln -s `pwd`/bin/node /usr/bin/ && ln -s `pwd`/bin/npm /usr/bin/
+RUN        ln -s `pwd`/bin/node /usr/bin/node && ln -s `pwd`/bin/npm /usr/bin/npm
 
 # Installs RVM w/ Ruby
 WORKDIR    /install
 RUN        (\curl -sSL https://get.rvm.io | bash -s stable --ruby=2.1.2)
-RUN        echo "source $HOME/.rvm/scripts/rvm" >> ~/.bash_profile
 
 # Installs Redis
 WORKDIR    /install
@@ -57,9 +56,9 @@ RUN        mkdir /etc/service/elasticsearch
 ADD        scripts/elasticsearch.sh /etc/service/elasticsearch/run
 
 
+# Define /root as the base directory when inspecting
+WORKDIR   /root
 
 
-# Removes the install folder
-RUN        rm -rf /install
 # Clean up APT when done.
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*

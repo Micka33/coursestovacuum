@@ -12,7 +12,7 @@
 ## Run as a deamon
 
 ```bash
-> docker run --name edx -v ./data:/root/coursestovacuum edx /sbin/my_init --quiet
+> docker run --name edx -v `pwd`/src/:/root/coursestovacuum edx /sbin/my_init --quiet
 ```
 
 
@@ -20,7 +20,7 @@
 ## Inspect the VM
 
 ```bash
-> docker run -v ./data:/root/coursestovacuum -t -i edx /sbin/my_init -- bash -l
+> sudo docker run -v `pwd`/src/:/root/coursestovacuum -t -i edx /sbin/my_init -- bash -l
 ```
 
 
