@@ -2,14 +2,17 @@
 
 1. Download Vagrant ([https://www.vagrantup.com/downloads.html](https://www.vagrantup.com/downloads.html))
 2. Clone this repo 
+
   ```bash
   /> git clone -b Docker https://github.com/Micka33/coursestovacuum.git .
   ```
 3. Create the VM
+
   ```
   /> vagrant up
   ```
 4. Connect using SSH to the VM
+
   ```
   /> vagrant ssh
   ```
