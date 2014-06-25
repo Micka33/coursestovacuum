@@ -12,10 +12,10 @@ var express           = require('express'),
 
 //Configuation
 var pubsub_prefix     = 'socketio.',
-    redis_conf        = yaml.safeLoad(fs.readFileSync('./redis.yml', 'utf8')),
-    node_env          = process.env.NODE_ENV          || 'development',
-    port              = redis_conf[node_env]['port']  || 6379,
-    host              = redis_conf[node_env]['host']  || 'localhost',
+    redis_conf        = yaml.safeLoad(fs.readFileSync('/execs/node/redis.yml', 'utf8')),
+    node_env          = process.env.NODE_ENV                            || 'development',
+    port              = process.env.REDIS_1_PORT_6379_TCP_PORT          || redis_conf[node_env]['port'],
+    host              = process.env.REDIS_1_PORT_6379_TCP_ADDR          || redis_conf[node_env]['host'],
     commander_redis   = redis.createClient(port, host),
     subscriber_redis  = redis.createClient(port, host);
 

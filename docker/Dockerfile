@@ -12,7 +12,6 @@ RUN        apt-get -y install make
 RUN        apt-get -y install libfreetype6
 RUN        apt-get -y install fontconfig
 RUN        apt-get -y install wget
-ENV        JAVA_HOME /usr/lib/jvm/java-7-openjdk-amd64
 
 RUN        mkdir install
 

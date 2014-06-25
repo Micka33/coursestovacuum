@@ -9,6 +9,7 @@ RUN        apt-get -y install g++
 RUN        apt-get -y install make
 RUN        apt-get -y install wget
 
+RUN        mkdir install
 
 # Installs Redis
 WORKDIR    /install
@@ -20,8 +21,7 @@ RUN        ln -s `pwd`/src/redis-benchmark /usr/bin/ && ln -s `pwd`/src/redis-ch
 
 # Creates Redis Service
 RUN        mkdir /etc/service/redis
-RUN        mkdir -p /etc/my_init.d
-RUN        echo "chmod +x /datas/config/redis.sh\nln -s /datas/config/redis.sh /etc/service/redis/run\nln -s /datas/config/redis.conf /etc/service/redis/redis.conf\n" > /etc/my_init.d/linking.sh
+RUN        echo "#!/bin/sh -e\nchmod +x /datas/config/redis.sh\nln -s /datas/config/redis.sh /etc/service/redis/run\nln -s /datas/config/redis.conf /etc/service/redis/redis.conf\n" > /etc/rc.local
 
 # Defines /root as the base directory when inspecting
 WORKDIR    /root

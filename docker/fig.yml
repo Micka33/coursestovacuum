@@ -2,7 +2,7 @@ elastic:
   # docker run -d -p 9200:9200 -p 9300:9300 -v `pwd`/../datas/:/datas --name elastic elastic
   build: ./elasticsearch
   volumes:
-    - ../datas/:/datas
+    - ./datas/:/datas
   expose:
     - "9300:9300"
     - "9200:9200"
@@ -11,7 +11,7 @@ mongod:
   # docker run -d -p 27017:27017 -v `pwd`/../datas/:/datas --name mongodb mongod
   build: ./mongod
   volumes:
-    - ../datas/:/datas
+    - ./datas/:/datas
   expose:
     - "27017:27017"
 
@@ -19,20 +19,56 @@ redis:
   # docker run -d -p 6379:6379 -v `pwd`/../datas/:/datas --name redis redis
   build: ./redis
   volumes:
-    - ../datas/:/datas
+    - ./datas/:/datas
   expose:
     - "6379:6379"
 
-edx:
-  # docker run --name edx -d -p 0.0.0.0:8282:8282 -v `pwd`/src/:/root/coursestovacuum -v `pwd`/datas/:/datas edx /sbin/my_init --quiet
-  build: .
-  command: /sbin/my_init --quiet --enable-insecure-key
+job:
+  build: ./job
   volumes:
-    - ./datas/:/datas
-    - ./src/:/root/coursestovacuum
-  ports:
-    - "8282:8282"
+    - ./src/:/datas
   links:
-    - elastic
-    - mongod
     - redis
+
+nodeserver:
+  build: ./node
+  volumes:
+    - ./datas:/datas
+    - ./src:/execs
+  expose:
+    - "8811:8811"
+  links:
+    - redis
+
+
+firstjob:
+  build: ./start_first_job
+  volumes:
+    - ./src/:/datas
+  links:
+    - redis
+    - nodeserver
+
+# Run this one using docker
+# such as 
+# > docker run --name edx -d -p 0.0.0.0:8282:8282 \
+#      -e ELASTIC_IP=`sudo docker inspect -f "{{ .NetworkSettings.IPAddress }}" coursestovacuum_elastic_1`
+#      -e MONGOD_IP=`sudo docker inspect -f "{{ .NetworkSettings.IPAddress }}" coursestovacuum_mongod_1`
+#      -e REDIS_IP=`sudo docker inspect -f "{{ .NetworkSettings.IPAddress }}" coursestovacuum_redis_1`
+#      -v `pwd`/src/:/root/coursestovacuum -v `pwd`/datas/:/datas \
+#      coursestovacuum_edx /sbin/my_init --quiet --enable-insecure-key
+#
+# [one-line]> docker run --name edx -d -p 0.0.0.0:8282:8282 -e ELASTIC_IP=`sudo docker inspect -f "{{ .NetworkSettings.IPAddress }}" coursestovacuum_elastic_1` -e MONGOD_IP=`sudo docker inspect -f "{{ .NetworkSettings.IPAddress }}" coursestovacuum_mongod_1` -e REDIS_IP=`sudo docker inspect -f "{{ .NetworkSettings.IPAddress }}" coursestovacuum_redis_1` -v `pwd`/src/:/root/coursestovacuum -v `pwd`/datas/:/datas edx /sbin/my_init --quiet --enable-insecure-key
+# edx:
+#   # docker run --name edx -d -p 0.0.0.0:8282:8282 -v `pwd`/src/:/root/coursestovacuum -v `pwd`/datas/:/datas edx /sbin/my_init --quiet --enable-insecure-key
+#   build: .
+#   command: /sbin/my_init --quiet --enable-insecure-key
+#   volumes:
+#     - ./datas/:/datas
+#     - ./src/:/root/coursestovacuum
+#   ports:
+#     - "8282:8282"
+#   links:
+#     - elastic
+#     - mongod
+#     - redis
