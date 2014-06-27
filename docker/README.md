@@ -44,7 +44,7 @@ Besides [job listener][job] is watching redis for new jobs to instanciate.
 
 #### Accelerate things
 
-More then 800 jobs will be created and executed, it takes a long while.  
+More than 800 jobs will be created and executed, it takes a long while.  
 To increase the jobs concurrencies change [this value](https://github.com/Micka33/coursestovacuum/blob/Docker/docker/src/job_listener/listenForJobs.js#L29).  
 
 #### Issue with the job listener
@@ -58,6 +58,13 @@ To by-pass the problem, you need to stop and relaunch the [job listener][job] co
 ```
 
 ### Get the rails api to work (when all jobs are done)
+
+First launch the [railsserver](https://github.com/Micka33/coursestovacuum/tree/Docker/docker/src/rails/elasticsearh_api).  
+
+```bash
+/docker/> sudo fig up -d railsserver
+```
+
 
 #### How to know all the jobs are done ?
 When using vagrant, consult the following url (Adapt the IP adress if your not using vagrant) :

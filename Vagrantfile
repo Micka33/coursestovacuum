@@ -51,8 +51,13 @@ SH
     vdocker.vm.network :private_network, ip: "172.17.8.100"
     vdocker.vm.synced_folder "docker", "/home/vagrant/coursestovacuum", :nfs => true, :mount_options => ['nolock,vers=3,udp']
 
-
   end
 
+
+  config.vm.provider "virtualbox" do |v|
+    v.memory = 1024
+    v.cpus = 2
+    v.customize ["modifyvm", :id, "--cpuexecutioncap", "70"]
+  end
 
 end
