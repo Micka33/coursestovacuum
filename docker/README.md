@@ -13,7 +13,7 @@
 
 ## Run it !
 
-The all process takes up to a day (easy).  
+The whole process takes up to a day (easy).  
 
 ### SHORT VERSION
 
