@@ -50,7 +50,7 @@ To increase the jobs concurrencies change [this value](https://github.com/Micka3
 #### Issue with the job listener
 
 From time to time the [job listener][job] stop instanciating jobs.  
-It occurs because a number of phantomjs jobs get stucked (network?, to much intancies of phantomjs silmutaenously?).  
+It occurs because a number of phantomjs jobs get stucked (network?, to much intancies of phantomjs simultaneously?).  
 To by-pass the problem, you need to stop and relaunch the [job listener][job] container.  
 
 ```bash
