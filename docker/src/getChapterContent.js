@@ -209,7 +209,7 @@ var saveCourse = function(crs)
     var id = null;
     var fireWhenReady = function ()
     {
-        console.log('io: '+typeof io);
+      console.log('io: '+(typeof io)+" for "+url);
       if (typeof io == 'undefined')
         id = setTimeout(fireWhenReady, 100);
       else

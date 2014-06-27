@@ -15,8 +15,8 @@ var webpage = require('webpage'),
     require('minimist')(['stuff', 'nuff', 'nop', 'top', 'nutch', 'fetch', 'ornot']);
 
 
-var nodeserver_ip =   system.env.NODESERVER_1_PORT_8811_TCP_ADDR
-var nodeserver_port = system.env.NODESERVER_1_PORT_8811_TCP_PORT
+var nodeserver_ip =   system.env.NODESERVER_1_PORT_8811_TCP_ADDR;
+var nodeserver_port = system.env.NODESERVER_1_PORT_8811_TCP_PORT;
 
 
 
@@ -112,7 +112,7 @@ var exit = function() {
 };
 
 page.onConsoleMessage = function(msg, lineNum, sourceId) {
-//  console.log('CONSOLE: ' + msg + ' (from line #' + lineNum + ' in "' + sourceId + '")');
+ console.log('CONSOLE: ' + msg + ' (from line #' + lineNum + ' in "' + sourceId + '")');
   if (msg == "exit phantomjs.")
     window.setTimeout(exit, 2000);
 };
@@ -166,6 +166,7 @@ var sendCmds = function(cmds) {
   page.evaluate(function(cmds, url) {
     var id = null;
     var fireWhenReady = function () {
+        console.log("trying io for ["+url+"]");
         if (typeof io != 'undefined') {
           if (id != null)
               clearTimeout(id);
@@ -211,6 +212,7 @@ var getCourseLinks = function()
                 params: ['../getChapterContent.js','--link', links[i]]
               });
   };
+  log("gonna run: "+cmds[0].params.join(" "));
   sendCmds(cmds);
 }
 var crawl = function()
@@ -220,6 +222,7 @@ var crawl = function()
     log(url+getHref('.main-cta a'));
     page.open(url+getHref('.main-cta a'), function()
     {
+      log('Opened')
       var urltoexpect = url+getHref('body > section.content-wrapper > nav > div > ol > li:nth-child(1) > a');
       page.open(urltoexpect, getCourseLinks);
     });

@@ -37,8 +37,8 @@ function launch_job(opts, done)
     commander_redis.HSET('coursestovacuum_jobs', opts.key, JSON.stringify(opts), function(err, nb_affected_rows) {
         if (err == null) {
             var R = spawn(bin, params, {cwd: __dirname,env: process.env});
-            R.stdout.on('data',function(buf) {});
-            R.stderr.on('data',function(buf) {});
+            R.stdout.on('data',function(buf) {log(buf);});
+            R.stderr.on('data',function(buf) {log(buf);});
             R.on('error',function(err) {log('It is most likely that phantomjs is not installed.');console.log(err);});
             R.on('exit' ,function(code)
             {

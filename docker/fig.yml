@@ -23,12 +23,14 @@ redis:
   expose:
     - "6379:6379"
 
+# sudo docker run -it -v `pwd`/src/:/datas --link coursestovacuum_redis_1:REDIS_1  --link coursestovacuum_nodeserver_1:NODESERVER_1 coursestovacuum_job /sbin/my_init -- /bin/bash -l
 job:
   build: ./job
   volumes:
     - ./src/:/datas
   links:
     - redis
+    - nodeserver
 
 nodeserver:
   build: ./node
@@ -39,6 +41,9 @@ nodeserver:
     - "8811:8811"
   links:
     - redis
+
+
+
 
 firstjob:
   build: ./start_first_job
