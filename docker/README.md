@@ -62,7 +62,7 @@ Besides [job listener][job] is watching redis for new jobs to instanciate.
 
 #### Accelerate things
 
-More than 800 jobs will be created and executed, it takes a long while.  
+More than 1000 jobs will be created and executed, it takes a long while.  
 To increase the jobs concurrencies change [this value](https://github.com/Micka33/coursestovacuum/blob/Docker/docker/src/job_listener/listenForJobs.js#L29).  
 
 #### Issue with the job listener
