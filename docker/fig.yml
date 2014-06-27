@@ -1,5 +1,5 @@
+# sudo docker run -d -p 9200:9200 -p 9300:9300 -v `pwd`/../datas/:/datas --name coursestovacuum_elastic_1 coursestovacuum_elastic
 elastic:
-  # docker run -d -p 9200:9200 -p 9300:9300 -v `pwd`/../datas/:/datas --name elastic elastic
   build: ./elasticsearch
   volumes:
     - ./datas/:/datas
@@ -7,23 +7,23 @@ elastic:
     - "9300:9300"
     - "9200:9200"
 
+# sudo docker run -d -p 27017:27017 -v `pwd`/../datas/:/datas --name coursestovacuum_mongod_1 coursestovacuum_mongod
 mongod:
-  # docker run -d -p 27017:27017 -v `pwd`/../datas/:/datas --name mongodb mongod
   build: ./mongod
   volumes:
     - ./datas/:/datas
   expose:
     - "27017:27017"
 
+# sudo docker run -d -p 6379:6379 -v `pwd`/../datas/:/datas --name coursestovacuum_redis_1 coursestovacuum_redis
 redis:
-  # docker run -d -p 6379:6379 -v `pwd`/../datas/:/datas --name redis redis
   build: ./redis
   volumes:
     - ./datas/:/datas
   expose:
     - "6379:6379"
 
-# sudo docker run -it -v `pwd`/src/:/datas --link coursestovacuum_redis_1:REDIS_1  --link coursestovacuum_nodeserver_1:NODESERVER_1 coursestovacuum_job /sbin/my_init -- /bin/bash -l
+# sudo docker run -it -v `pwd`/src/:/datas --link coursestovacuum_redis_1:REDIS_1 --link coursestovacuum_nodeserver_1:NODESERVER_1 coursestovacuum_job /sbin/my_init -- /bin/bash -l
 job:
   build: ./job
   volumes:
