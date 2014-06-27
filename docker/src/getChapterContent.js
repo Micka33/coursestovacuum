@@ -16,6 +16,8 @@ var webpage = require('webpage'),
 
 
 
+var nodeserver_ip =   system.env.NODESERVER_1_PORT_8811_TCP_ADDR
+var nodeserver_port = system.env.NODESERVER_1_PORT_8811_TCP_PORT
 
 
 
@@ -117,7 +119,7 @@ var waittime = function(delay, then, params) {
 };
 page.onLoadFinished = function(status) {
   urlLoaded = currentUrl();
-  page.includeJs('http://localhost:8811/socket.io/socket.io.js');
+  page.includeJs('http://'+nodeserver_ip+':'+nodeserver_port+'/socket.io/socket.io.js');
 };
 var hasClass = function(el, classToCheck) {
   return page.evaluate(function(el, classToCheck) {
@@ -194,7 +196,7 @@ var saveCourse = function(crs)
   var parts = crs.parts;
   var base = crs;
   delete base.parts;
-  page.evaluate(function(base, parts)
+  page.evaluate(function(base, parts, url)
   {
     var courses = JSON.parse(base);
     courses.parts = JSON.parse(parts)
@@ -214,7 +216,7 @@ var saveCourse = function(crs)
       {
         if (id != null)
           clearTimeout(id);
-        var socket = io.connect('http://localhost:8811/');
+        var socket = io.connect(url);
         socket.on('connect', function ()
         {
           socket.emit('save_content', { courses:courses });
@@ -224,7 +226,7 @@ var saveCourse = function(crs)
     };
     fireWhenReady();
     //So it does'nt block the other threads
-  }, JSON.stringify(base), JSON.stringify(parts));
+  }, JSON.stringify(base), JSON.stringify(parts), 'http://'+nodeserver_ip+':'+nodeserver_port+'/');
 
 };
 

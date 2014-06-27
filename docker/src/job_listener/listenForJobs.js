@@ -26,7 +26,7 @@ subscriber_redis.on('error',  function (err)  {log('[subscriber_redis] La connec
 // ASYNC JOBS
 var async             = require('async'),
     spawn             = require('child_process').spawn,
-    max_jobs          = 4;  // typically a command line option, because it is unique to the machine
+    max_jobs          = 2;  // typically a command line option, because it is unique to the machine
 
 function launch_job(opts, done)
 {

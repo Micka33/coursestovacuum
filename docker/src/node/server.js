@@ -66,8 +66,8 @@ io.sockets.on('connection', function (socket) {
 
 });
 
-server.listen(8811, 'localhost');
-log("listenning on localhost:8811");
+server.listen(8811, '0.0.0.0');
+log("listenning on 0.0.0.0:8811");
 
 
 

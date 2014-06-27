@@ -40,14 +40,28 @@ nodeserver:
   links:
     - redis
 
-
 firstjob:
   build: ./start_first_job
   volumes:
     - ./src/:/datas
   links:
-    - redis
     - nodeserver
+
+railsserver:
+  build: ./rails
+  volumes:
+    - ./datas:/datas
+    - ./src:/execs
+  ports:
+    - "8282:8282"
+  links:
+    - mongod
+    - elastic
+    - redis
+
+
+
+
 
 # Run this one using docker
 # such as 

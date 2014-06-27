@@ -9,7 +9,7 @@ production:
       # Provides the hosts the default session can connect to. Must be an array
       # of host:port pairs. (required)
       hosts:
-        - localhost:27017
+        - <%= ENV['MONGOD_1_PORT_27017_TCP_ADDR'] %>:<%= ENV['MONGOD_1_PORT_27017_TCP_PORT'] %>
       options:
         # Change the default write concern. (default = { w: 1 })
         # write:
@@ -66,7 +66,7 @@ development:
       # Provides the hosts the default session can connect to. Must be an array
       # of host:port pairs. (required)
       hosts:
-        - localhost:27017
+        - <%= ENV['MONGOD_1_PORT_27017_TCP_ADDR'] %>:<%= ENV['MONGOD_1_PORT_27017_TCP_PORT'] %>
       options:
         # Change the default write concern. (default = { w: 1 })
         # write:
@@ -112,15 +112,3 @@ development:
 
     # Ensure all times are UTC in the app side. (default: false)
     # use_utc: false
-test:
-  sessions:
-    default:
-      database: elasticsearh_api_test
-      hosts:
-        - localhost:27017
-      options:
-        read: primary
-        # In the test environment we lower the retries and retry interval to
-        # low amounts for fast failures.
-        max_retries: 1
-        retry_interval: 0

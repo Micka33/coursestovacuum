@@ -30,7 +30,7 @@ threads 1,16
 ##
 ## The default is “0”.
 ##
-workers 2
+workers 0
 
 ## If you're running in Clustered Mode you can optionally choose to preload your application
 ## before starting up the workers.
@@ -84,11 +84,11 @@ end
 ## daemonize
 ## daemonize false
 ##
-daemonize
+daemonize false
 
 ## Store the pid of the server in the file at “path”.
 ##
-pidfile "#{application_path}/tmp/pids/puma_#{railsenv}.pid"
+# pidfile "#{application_path}/tmp/pids/puma_#{railsenv}.pid"
 
 ## Use “path” as the file to store the server info state. This is
 ## used by “pumactl” to query and control the server.

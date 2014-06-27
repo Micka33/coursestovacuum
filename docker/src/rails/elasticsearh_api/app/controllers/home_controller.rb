@@ -17,6 +17,14 @@ class HomeController < ApplicationController
     render json: {ret: ret, courses:courses_json}
   end
 
+  def nb_jobs
+    njobs = 0
+    $REDIS_POOL.with do |redis|
+      njobs = redis.HGETALL('coursestovacuum_jobs').length
+    end
+    render json: {jobs_left: njobs}
+  end
+
   private
 
   def search_params

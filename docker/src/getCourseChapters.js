@@ -15,6 +15,8 @@ var webpage = require('webpage'),
     require('minimist')(['stuff', 'nuff', 'nop', 'top', 'nutch', 'fetch', 'ornot']);
 
 
+var nodeserver_ip =   system.env.NODESERVER_1_PORT_8811_TCP_ADDR
+var nodeserver_port = system.env.NODESERVER_1_PORT_8811_TCP_PORT
 
 
 
@@ -91,7 +93,7 @@ var waittil = function(urlToWaitFor, delay, then) {
 };
 page.onLoadFinished = function(status) {
   urlLoaded = currentUrl();
-  page.includeJs('http://localhost:8811/socket.io/socket.io.js');
+  page.includeJs('http://'+nodeserver_ip+':'+nodeserver_port+'/socket.io/socket.io.js');
 };
 var hasClass = function(el, classToCheck) {
   return page.evaluate(function(el, classToCheck) {
@@ -161,13 +163,13 @@ var courseUrl = (args.course != undefined)?(args.course):(args.c);
 
 //DATABASE UTILITIES
 var sendCmds = function(cmds) {
-  page.evaluate(function(cmds) {
+  page.evaluate(function(cmds, url) {
     var id = null;
     var fireWhenReady = function () {
         if (typeof io != 'undefined') {
           if (id != null)
               clearTimeout(id);
-          var socket = io.connect('http://localhost:8811/');
+          var socket = io.connect(url);
           socket.on('connect', function () {
             socket.emit('course_job', { cmds:JSON.parse(cmds) });
             console.log('exit phantomjs.');
@@ -178,7 +180,7 @@ var sendCmds = function(cmds) {
         }
     };
     fireWhenReady();
-  }, JSON.stringify(cmds));
+  }, JSON.stringify(cmds), 'http://'+nodeserver_ip+':'+nodeserver_port+'/');
 };
 
 

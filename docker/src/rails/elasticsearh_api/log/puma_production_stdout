@@ -21,3 +21,10 @@
 [23489] - Worker 0 (pid: 23492) booted, phase: 0
 [23498] + Gemfile in context: /home/micka/EDX/coursestovacuum/rails/elasticsearh_api/Gemfile
 [23489] - Worker 1 (pid: 23498) booted, phase: 0
+=== puma startup: 2014-06-27 08:03:54 +0000 ===
+- Gracefully stopping, waiting for requests to finish
+- Goodbye!
+=== puma startup: 2014-06-27 08:07:16 +0000 ===
+- Gracefully stopping, waiting for requests to finish
+- Goodbye!
+=== puma startup: 2014-06-27 09:22:48 +0000 ===

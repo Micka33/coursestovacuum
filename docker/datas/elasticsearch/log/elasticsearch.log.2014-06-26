@@ -1,0 +1,162 @@
+[2014-06-26 13:04:58,050][INFO ][node                     ] [Nomad] version[1.2.1], pid[54], build[6c95b75/2014-06-03T15:02:52Z]
+[2014-06-26 13:04:58,052][INFO ][node                     ] [Nomad] initializing ...
+[2014-06-26 13:04:58,057][INFO ][plugins                  ] [Nomad] loaded [], sites []
+[2014-06-26 13:05:01,124][INFO ][node                     ] [Nomad] initialized
+[2014-06-26 13:05:01,126][INFO ][node                     ] [Nomad] starting ...
+[2014-06-26 13:05:01,203][INFO ][transport                ] [Nomad] bound_address {inet[/0:0:0:0:0:0:0:0:9300]}, publish_address {inet[/10.1.0.37:9300]}
+[2014-06-26 13:05:04,244][INFO ][cluster.service          ] [Nomad] new_master [Nomad][rZ9KRGl_Qge8KJ7pqUyCZw][432ed0fe87be][inet[/10.1.0.37:9300]], reason: zen-disco-join (elected_as_master)
+[2014-06-26 13:05:04,283][INFO ][discovery                ] [Nomad] elasticsearch/rZ9KRGl_Qge8KJ7pqUyCZw
+[2014-06-26 13:05:04,310][INFO ][http                     ] [Nomad] bound_address {inet[/0:0:0:0:0:0:0:0:9200]}, publish_address {inet[/10.1.0.37:9200]}
+[2014-06-26 13:05:04,326][INFO ][gateway                  ] [Nomad] recovered [0] indices into cluster_state
+[2014-06-26 13:05:04,328][INFO ][node                     ] [Nomad] started
+[2014-06-26 13:05:28,733][INFO ][node                     ] [Nomad] stopping ...
+[2014-06-26 13:05:28,754][INFO ][node                     ] [Nomad] stopped
+[2014-06-26 13:05:28,755][INFO ][node                     ] [Nomad] closing ...
+[2014-06-26 13:05:28,762][INFO ][node                     ] [Nomad] closed
+[2014-06-26 13:05:39,323][INFO ][node                     ] [Firelord] version[1.2.1], pid[1], build[6c95b75/2014-06-03T15:02:52Z]
+[2014-06-26 13:05:39,324][INFO ][node                     ] [Firelord] initializing ...
+[2014-06-26 13:05:39,329][INFO ][plugins                  ] [Firelord] loaded [], sites []
+[2014-06-26 13:05:42,276][INFO ][node                     ] [Firelord] initialized
+[2014-06-26 13:05:42,276][INFO ][node                     ] [Firelord] starting ...
+[2014-06-26 13:05:42,342][INFO ][transport                ] [Firelord] bound_address {inet[/0:0:0:0:0:0:0:0:9300]}, publish_address {inet[/10.1.0.38:9300]}
+[2014-06-26 13:05:45,378][INFO ][cluster.service          ] [Firelord] new_master [Firelord][yFcy5WcnRnGVaV5RaVZDFg][38dee78f205a][inet[/10.1.0.38:9300]], reason: zen-disco-join (elected_as_master)
+[2014-06-26 13:05:45,425][INFO ][discovery                ] [Firelord] elasticsearch/yFcy5WcnRnGVaV5RaVZDFg
+[2014-06-26 13:05:45,453][INFO ][http                     ] [Firelord] bound_address {inet[/0:0:0:0:0:0:0:0:9200]}, publish_address {inet[/10.1.0.38:9200]}
+[2014-06-26 13:05:45,465][INFO ][gateway                  ] [Firelord] recovered [0] indices into cluster_state
+[2014-06-26 13:05:45,466][INFO ][node                     ] [Firelord] started
+[2014-06-26 13:05:57,571][INFO ][node                     ] [Firelord] stopping ...
+[2014-06-26 13:05:57,592][INFO ][node                     ] [Firelord] stopped
+[2014-06-26 13:05:57,593][INFO ][node                     ] [Firelord] closing ...
+[2014-06-26 13:05:57,601][INFO ][node                     ] [Firelord] closed
+[2014-06-26 13:13:56,559][INFO ][node                     ] [Alpha the Ultimate Mutant] version[1.2.1], pid[1], build[6c95b75/2014-06-03T15:02:52Z]
+[2014-06-26 13:13:56,559][INFO ][node                     ] [Alpha the Ultimate Mutant] initializing ...
+[2014-06-26 13:13:56,564][INFO ][plugins                  ] [Alpha the Ultimate Mutant] loaded [], sites []
+[2014-06-26 13:13:59,751][INFO ][node                     ] [Alpha the Ultimate Mutant] initialized
+[2014-06-26 13:13:59,751][INFO ][node                     ] [Alpha the Ultimate Mutant] starting ...
+[2014-06-26 13:13:59,824][INFO ][transport                ] [Alpha the Ultimate Mutant] bound_address {inet[/0:0:0:0:0:0:0:0:9300]}, publish_address {inet[/10.1.0.51:9300]}
+[2014-06-26 13:14:03,156][INFO ][cluster.service          ] [Alpha the Ultimate Mutant] new_master [Alpha the Ultimate Mutant][8Y7lnmrzQTSHsf48P9iUnQ][446a9d727910][inet[/10.1.0.51:9300]], reason: zen-disco-join (elected_as_master)
+[2014-06-26 13:14:03,198][INFO ][discovery                ] [Alpha the Ultimate Mutant] elasticsearch/8Y7lnmrzQTSHsf48P9iUnQ
+[2014-06-26 13:14:03,223][INFO ][http                     ] [Alpha the Ultimate Mutant] bound_address {inet[/0:0:0:0:0:0:0:0:9200]}, publish_address {inet[/10.1.0.51:9200]}
+[2014-06-26 13:14:03,235][INFO ][gateway                  ] [Alpha the Ultimate Mutant] recovered [0] indices into cluster_state
+[2014-06-26 13:14:03,236][INFO ][node                     ] [Alpha the Ultimate Mutant] started
+[2014-06-26 13:14:04,126][INFO ][monitor.jvm              ] [Alpha the Ultimate Mutant] [gc][young][4][2] duration [885ms], collections [1]/[1.3s], total [885ms]/[1s], memory [72.1mb]->[21.3mb]/[1015.6mb], all_pools {[young] [56.5mb]->[695.4kb]/[66.5mb]}{[survivor] [8.3mb]->[8.3mb]/[8.3mb]}{[old] [7.2mb]->[12.3mb]/[940.8mb]}
+[2014-06-26 13:14:16,598][INFO ][node                     ] [Alpha the Ultimate Mutant] stopping ...
+[2014-06-26 13:14:16,617][INFO ][node                     ] [Alpha the Ultimate Mutant] stopped
+[2014-06-26 13:14:16,617][INFO ][node                     ] [Alpha the Ultimate Mutant] closing ...
+[2014-06-26 13:14:16,624][INFO ][node                     ] [Alpha the Ultimate Mutant] closed
+[2014-06-26 13:14:23,011][INFO ][node                     ] [Wild Child] version[1.2.1], pid[1], build[6c95b75/2014-06-03T15:02:52Z]
+[2014-06-26 13:14:23,012][INFO ][node                     ] [Wild Child] initializing ...
+[2014-06-26 13:14:23,017][INFO ][plugins                  ] [Wild Child] loaded [], sites []
+[2014-06-26 13:14:26,144][INFO ][node                     ] [Wild Child] initialized
+[2014-06-26 13:14:26,145][INFO ][node                     ] [Wild Child] starting ...
+[2014-06-26 13:14:26,224][INFO ][transport                ] [Wild Child] bound_address {inet[/0:0:0:0:0:0:0:0:9300]}, publish_address {inet[/10.1.0.53:9300]}
+[2014-06-26 13:14:29,264][INFO ][cluster.service          ] [Wild Child] new_master [Wild Child][ElBEPNQnSpqVbrBROasKoQ][5e1b09e5db57][inet[/10.1.0.53:9300]], reason: zen-disco-join (elected_as_master)
+[2014-06-26 13:14:29,304][INFO ][discovery                ] [Wild Child] elasticsearch/ElBEPNQnSpqVbrBROasKoQ
+[2014-06-26 13:14:29,331][INFO ][http                     ] [Wild Child] bound_address {inet[/0:0:0:0:0:0:0:0:9200]}, publish_address {inet[/10.1.0.53:9200]}
+[2014-06-26 13:14:29,344][INFO ][gateway                  ] [Wild Child] recovered [0] indices into cluster_state
+[2014-06-26 13:14:29,344][INFO ][node                     ] [Wild Child] started
+[2014-06-26 13:14:32,685][INFO ][node                     ] [Wild Child] stopping ...
+[2014-06-26 13:14:32,705][INFO ][node                     ] [Wild Child] stopped
+[2014-06-26 13:14:32,705][INFO ][node                     ] [Wild Child] closing ...
+[2014-06-26 13:14:32,713][INFO ][node                     ] [Wild Child] closed
+[2014-06-26 13:14:44,495][INFO ][node                     ] [Kl'rt] version[1.2.1], pid[1], build[6c95b75/2014-06-03T15:02:52Z]
+[2014-06-26 13:14:44,496][INFO ][node                     ] [Kl'rt] initializing ...
+[2014-06-26 13:14:44,501][INFO ][plugins                  ] [Kl'rt] loaded [], sites []
+[2014-06-26 13:14:47,404][INFO ][node                     ] [Kl'rt] initialized
+[2014-06-26 13:14:47,404][INFO ][node                     ] [Kl'rt] starting ...
+[2014-06-26 13:14:47,477][INFO ][transport                ] [Kl'rt] bound_address {inet[/0:0:0:0:0:0:0:0:9300]}, publish_address {inet[/10.1.0.55:9300]}
+[2014-06-26 13:14:50,508][INFO ][cluster.service          ] [Kl'rt] new_master [Kl'rt][pgogrP9QTx2mri1j0tiesw][737b019f4323][inet[/10.1.0.55:9300]], reason: zen-disco-join (elected_as_master)
+[2014-06-26 13:14:50,566][INFO ][discovery                ] [Kl'rt] elasticsearch/pgogrP9QTx2mri1j0tiesw
+[2014-06-26 13:14:50,620][INFO ][http                     ] [Kl'rt] bound_address {inet[/0:0:0:0:0:0:0:0:9200]}, publish_address {inet[/10.1.0.55:9200]}
+[2014-06-26 13:14:50,650][INFO ][gateway                  ] [Kl'rt] recovered [0] indices into cluster_state
+[2014-06-26 13:14:50,651][INFO ][node                     ] [Kl'rt] started
+[2014-06-26 14:42:30,823][INFO ][node                     ] [Gargantua] version[1.2.1], pid[1], build[6c95b75/2014-06-03T15:02:52Z]
+[2014-06-26 14:42:30,823][INFO ][node                     ] [Gargantua] initializing ...
+[2014-06-26 14:42:30,829][INFO ][plugins                  ] [Gargantua] loaded [], sites []
+[2014-06-26 14:42:34,479][INFO ][node                     ] [Gargantua] initialized
+[2014-06-26 14:42:34,479][INFO ][node                     ] [Gargantua] starting ...
+[2014-06-26 14:42:34,577][INFO ][transport                ] [Gargantua] bound_address {inet[/0:0:0:0:0:0:0:0:9300]}, publish_address {inet[/10.1.0.133:9300]}
+[2014-06-26 14:42:37,626][INFO ][cluster.service          ] [Gargantua] new_master [Gargantua][glzVCF3_TaG75T6h_7RHxQ][655381d5984e][inet[/10.1.0.133:9300]], reason: zen-disco-join (elected_as_master)
+[2014-06-26 14:42:37,667][INFO ][discovery                ] [Gargantua] elasticsearch/glzVCF3_TaG75T6h_7RHxQ
+[2014-06-26 14:42:37,697][INFO ][http                     ] [Gargantua] bound_address {inet[/0:0:0:0:0:0:0:0:9200]}, publish_address {inet[/10.1.0.133:9200]}
+[2014-06-26 14:42:37,715][INFO ][gateway                  ] [Gargantua] recovered [0] indices into cluster_state
+[2014-06-26 14:42:37,717][INFO ][node                     ] [Gargantua] started
+[2014-06-26 14:42:41,731][INFO ][node                     ] [Gargantua] stopping ...
+[2014-06-26 14:42:41,759][INFO ][node                     ] [Gargantua] stopped
+[2014-06-26 14:42:41,759][INFO ][node                     ] [Gargantua] closing ...
+[2014-06-26 14:42:41,766][INFO ][node                     ] [Gargantua] closed
+[2014-06-26 14:42:58,397][INFO ][node                     ] [Magdalena] version[1.2.1], pid[1], build[6c95b75/2014-06-03T15:02:52Z]
+[2014-06-26 14:42:58,398][INFO ][node                     ] [Magdalena] initializing ...
+[2014-06-26 14:42:58,403][INFO ][plugins                  ] [Magdalena] loaded [], sites []
+[2014-06-26 14:43:01,638][INFO ][node                     ] [Magdalena] initialized
+[2014-06-26 14:43:01,639][INFO ][node                     ] [Magdalena] starting ...
+[2014-06-26 14:43:01,740][INFO ][transport                ] [Magdalena] bound_address {inet[/0:0:0:0:0:0:0:0:9300]}, publish_address {inet[/10.1.0.135:9300]}
+[2014-06-26 14:43:04,791][INFO ][cluster.service          ] [Magdalena] new_master [Magdalena][WS-lNYOSR6e2XS6BI6jVIw][b22f9b0d654f][inet[/10.1.0.135:9300]], reason: zen-disco-join (elected_as_master)
+[2014-06-26 14:43:04,836][INFO ][discovery                ] [Magdalena] elasticsearch/WS-lNYOSR6e2XS6BI6jVIw
+[2014-06-26 14:43:04,863][INFO ][http                     ] [Magdalena] bound_address {inet[/0:0:0:0:0:0:0:0:9200]}, publish_address {inet[/10.1.0.135:9200]}
+[2014-06-26 14:43:04,875][INFO ][gateway                  ] [Magdalena] recovered [0] indices into cluster_state
+[2014-06-26 14:43:04,876][INFO ][node                     ] [Magdalena] started
+[2014-06-26 15:05:07,342][INFO ][node                     ] [Magdalena] stopping ...
+[2014-06-26 15:05:07,381][INFO ][node                     ] [Magdalena] stopped
+[2014-06-26 15:05:07,381][INFO ][node                     ] [Magdalena] closing ...
+[2014-06-26 15:05:07,393][INFO ][node                     ] [Magdalena] closed
+[2014-06-26 15:05:11,378][INFO ][node                     ] [Illyana Rasputin] version[1.2.1], pid[1], build[6c95b75/2014-06-03T15:02:52Z]
+[2014-06-26 15:05:11,379][INFO ][node                     ] [Illyana Rasputin] initializing ...
+[2014-06-26 15:05:11,385][INFO ][plugins                  ] [Illyana Rasputin] loaded [], sites []
+[2014-06-26 15:05:14,773][INFO ][node                     ] [Illyana Rasputin] initialized
+[2014-06-26 15:05:14,773][INFO ][node                     ] [Illyana Rasputin] starting ...
+[2014-06-26 15:05:14,865][INFO ][transport                ] [Illyana Rasputin] bound_address {inet[/0:0:0:0:0:0:0:0:9300]}, publish_address {inet[/10.1.0.138:9300]}
+[2014-06-26 15:05:17,910][INFO ][cluster.service          ] [Illyana Rasputin] new_master [Illyana Rasputin][eCXSrJgCRZGgVH3C3UTh1Q][71c79670f0df][inet[/10.1.0.138:9300]], reason: zen-disco-join (elected_as_master)
+[2014-06-26 15:05:17,951][INFO ][discovery                ] [Illyana Rasputin] elasticsearch/eCXSrJgCRZGgVH3C3UTh1Q
+[2014-06-26 15:05:18,133][INFO ][gateway                  ] [Illyana Rasputin] recovered [0] indices into cluster_state
+[2014-06-26 15:05:18,134][INFO ][http                     ] [Illyana Rasputin] bound_address {inet[/0:0:0:0:0:0:0:0:9200]}, publish_address {inet[/10.1.0.138:9200]}
+[2014-06-26 15:05:18,140][INFO ][node                     ] [Illyana Rasputin] started
+[2014-06-26 15:23:29,678][INFO ][node                     ] [Illyana Rasputin] stopping ...
+[2014-06-26 15:23:29,720][INFO ][node                     ] [Illyana Rasputin] stopped
+[2014-06-26 15:23:29,720][INFO ][node                     ] [Illyana Rasputin] closing ...
+[2014-06-26 15:23:29,731][INFO ][node                     ] [Illyana Rasputin] closed
+[2014-06-26 15:27:34,181][INFO ][node                     ] [Madame Hydra] version[1.2.1], pid[1], build[6c95b75/2014-06-03T15:02:52Z]
+[2014-06-26 15:27:34,181][INFO ][node                     ] [Madame Hydra] initializing ...
+[2014-06-26 15:27:34,187][INFO ][plugins                  ] [Madame Hydra] loaded [], sites []
+[2014-06-26 15:27:39,210][INFO ][node                     ] [Madame Hydra] initialized
+[2014-06-26 15:27:39,210][INFO ][node                     ] [Madame Hydra] starting ...
+[2014-06-26 15:27:39,305][INFO ][transport                ] [Madame Hydra] bound_address {inet[/0:0:0:0:0:0:0:0:9300]}, publish_address {inet[/10.1.0.153:9300]}
+[2014-06-26 15:27:42,351][INFO ][cluster.service          ] [Madame Hydra] new_master [Madame Hydra][uVl09bfRTPSdLFndPEY_UA][5cd51cc405f9][inet[/10.1.0.153:9300]], reason: zen-disco-join (elected_as_master)
+[2014-06-26 15:27:42,395][INFO ][discovery                ] [Madame Hydra] elasticsearch/uVl09bfRTPSdLFndPEY_UA
+[2014-06-26 15:27:42,425][INFO ][http                     ] [Madame Hydra] bound_address {inet[/0:0:0:0:0:0:0:0:9200]}, publish_address {inet[/10.1.0.153:9200]}
+[2014-06-26 15:27:42,439][INFO ][gateway                  ] [Madame Hydra] recovered [0] indices into cluster_state
+[2014-06-26 15:27:42,439][INFO ][node                     ] [Madame Hydra] started
+[2014-06-26 15:27:46,458][INFO ][node                     ] [Madame Hydra] stopping ...
+[2014-06-26 15:27:46,479][INFO ][node                     ] [Madame Hydra] stopped
+[2014-06-26 15:27:46,479][INFO ][node                     ] [Madame Hydra] closing ...
+[2014-06-26 15:27:46,486][INFO ][node                     ] [Madame Hydra] closed
+[2014-06-26 15:27:57,327][INFO ][node                     ] [Brother Tode] version[1.2.1], pid[1], build[6c95b75/2014-06-03T15:02:52Z]
+[2014-06-26 15:27:57,328][INFO ][node                     ] [Brother Tode] initializing ...
+[2014-06-26 15:27:57,333][INFO ][plugins                  ] [Brother Tode] loaded [], sites []
+[2014-06-26 15:28:00,442][INFO ][node                     ] [Brother Tode] initialized
+[2014-06-26 15:28:00,442][INFO ][node                     ] [Brother Tode] starting ...
+[2014-06-26 15:28:00,519][INFO ][transport                ] [Brother Tode] bound_address {inet[/0:0:0:0:0:0:0:0:9300]}, publish_address {inet[/10.1.0.159:9300]}
+[2014-06-26 15:28:03,561][INFO ][cluster.service          ] [Brother Tode] new_master [Brother Tode][akra5O1QQnqF7cK0r2jo5Q][84ba7040df09][inet[/10.1.0.159:9300]], reason: zen-disco-join (elected_as_master)
+[2014-06-26 15:28:03,600][INFO ][discovery                ] [Brother Tode] elasticsearch/akra5O1QQnqF7cK0r2jo5Q
+[2014-06-26 15:28:03,627][INFO ][http                     ] [Brother Tode] bound_address {inet[/0:0:0:0:0:0:0:0:9200]}, publish_address {inet[/10.1.0.159:9200]}
+[2014-06-26 15:28:03,637][INFO ][gateway                  ] [Brother Tode] recovered [0] indices into cluster_state
+[2014-06-26 15:28:03,638][INFO ][node                     ] [Brother Tode] started
+[2014-06-26 15:28:19,972][INFO ][node                     ] [Brother Tode] stopping ...
+[2014-06-26 15:28:20,041][INFO ][node                     ] [Brother Tode] stopped
+[2014-06-26 15:28:20,043][INFO ][node                     ] [Brother Tode] closing ...
+[2014-06-26 15:28:20,066][INFO ][node                     ] [Brother Tode] closed
+[2014-06-26 15:28:27,333][INFO ][node                     ] [Piledriver] version[1.2.1], pid[1], build[6c95b75/2014-06-03T15:02:52Z]
+[2014-06-26 15:28:27,333][INFO ][node                     ] [Piledriver] initializing ...
+[2014-06-26 15:28:27,338][INFO ][plugins                  ] [Piledriver] loaded [], sites []
+[2014-06-26 15:28:31,454][INFO ][node                     ] [Piledriver] initialized
+[2014-06-26 15:28:31,455][INFO ][node                     ] [Piledriver] starting ...
+[2014-06-26 15:28:31,540][INFO ][transport                ] [Piledriver] bound_address {inet[/0:0:0:0:0:0:0:0:9300]}, publish_address {inet[/10.1.0.163:9300]}
+[2014-06-26 15:28:34,943][INFO ][cluster.service          ] [Piledriver] new_master [Piledriver][aE5mPPBpTT6zivtvZeyHwg][dbd9b04dd8c8][inet[/10.1.0.163:9300]], reason: zen-disco-join (elected_as_master)
+[2014-06-26 15:28:34,986][INFO ][discovery                ] [Piledriver] elasticsearch/aE5mPPBpTT6zivtvZeyHwg
+[2014-06-26 15:28:35,013][INFO ][http                     ] [Piledriver] bound_address {inet[/0:0:0:0:0:0:0:0:9200]}, publish_address {inet[/10.1.0.163:9200]}
+[2014-06-26 15:28:35,025][INFO ][gateway                  ] [Piledriver] recovered [0] indices into cluster_state
+[2014-06-26 15:28:35,026][INFO ][node                     ] [Piledriver] started
+[2014-06-26 15:37:47,222][INFO ][node                     ] [Piledriver] stopping ...
+[2014-06-26 15:37:47,420][INFO ][node                     ] [Piledriver] stopped
+[2014-06-26 15:37:47,420][INFO ][node                     ] [Piledriver] closing ...
+[2014-06-26 15:37:47,440][INFO ][node                     ] [Piledriver] closed
