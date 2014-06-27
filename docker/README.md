@@ -8,8 +8,6 @@
 ## Build them
 
 ```bash
-/> git clone -b Docker https://github.com/Micka33/coursestovacuum.git .
-/> cd docker
 /docker/> sudo fig build
 ```
 
