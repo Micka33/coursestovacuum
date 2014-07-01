@@ -15,7 +15,4 @@ Sidekiq.configure_server do |config|
       :namespace => SIDEKIQ_CONFIG[:namespace],
       :size      => SIDEKIQ_CONFIG[:client_connections]
   }
-  config.server_middleware do |chain|
-    chain.add Kiqstand::Middleware
-  end
 end

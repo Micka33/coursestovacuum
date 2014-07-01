@@ -1,8 +1,6 @@
 class Course
   include Mongoid::Document
   include Mongoid::Elasticsearch
-  elasticsearch!
-
 
   field :part,          type: String
   field :video_url_ori, type: String
@@ -12,6 +10,11 @@ class Course
   field :course,        type: String
   field :subtitle,      type: String
 
+  def as_json(options={})
+    attrs = super(options)
+    attrs['id'] = attrs['_id'].to_s
+    attrs
+  end
 
   elasticsearch!({
     course: {
