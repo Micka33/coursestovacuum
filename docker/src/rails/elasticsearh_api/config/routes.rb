@@ -7,11 +7,16 @@ ElasticsearhApi::Application.routes.draw do
 
   get 'search/:q' => 'home#search'
   get 'how_many_jobs_left' => 'home#nb_jobs'
+  get 'what_is_this_job/:jid' => 'home#what_is_this_job'
+  get 'ignore_a_job/:jid' => 'home#ignore_a_job'
+  get 'list_all_ignored_job' => 'home#list_all_ignored_job'
+
 
   # get 'import_json_file' => 'home#import_json_file'
 
   get 'migration/start' => 'migration#start'
   get 'migration/download_videos' => 'migration#download_videos'
+
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'

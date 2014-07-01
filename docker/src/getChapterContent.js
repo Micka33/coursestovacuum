@@ -16,8 +16,8 @@ var webpage = require('webpage'),
 
 
 
-var nodeserver_ip =   system.env.NODESERVER_1_PORT_8811_TCP_ADDR
-var nodeserver_port = system.env.NODESERVER_1_PORT_8811_TCP_PORT
+var nodeserver_ip =   system.env.NODESERVER_1_PORT_8811_TCP_ADDR;
+var nodeserver_port = system.env.NODESERVER_1_PORT_8811_TCP_PORT;
 
 
 

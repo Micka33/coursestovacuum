@@ -19,7 +19,7 @@ The whole process takes up to a day (easy).
 
 ```bash
 /docker/> sudo fig up -d mongod elastic redis
-/docker/> sudo fig up -d job nodeserver railsserver
+/docker/> sudo fig up -d job nodeserver railsserver sidekiq
 /docker/> sudo fig up firstjob
 #wait for the job container to be done (0 jobs left)
 /docker/> curl http://`sudo docker inspect -f "{{ .NetworkSettings.IPAddress }}" coursestovacuum_railsserver_1`:8282/how_many_jobs_left
@@ -80,7 +80,7 @@ To by-pass the problem, you need to stop and relaunch the [job listener][job] co
 First launch the [railsserver](https://github.com/Micka33/coursestovacuum/tree/Docker/docker/src/rails/elasticsearh_api).  
 
 ```bash
-/docker/> sudo fig up -d railsserver
+/docker/> sudo fig up -d railsserver sidekiq
 ```
 
 

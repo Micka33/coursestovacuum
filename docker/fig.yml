@@ -52,6 +52,10 @@ firstjob:
   links:
     - nodeserver
 
+
+
+
+# sudo docker run -it -p 8282:8282 -v `pwd`/src/:/execs -v `pwd`/datas/:/datas --link coursestovacuum_redis_1:REDIS_1 --link coursestovacuum_mongod_1:MONGOD_1 --link coursestovacuum_elastic_1:ELASTIC_1 coursestovacuum_railsserver /sbin/my_init -- /bin/bash -l
 railsserver:
   build: ./rails
   volumes:
@@ -59,6 +63,18 @@ railsserver:
     - ./src:/execs
   ports:
     - "8282:8282"
+  links:
+    - mongod
+    - elastic
+    - redis
+
+
+# sudo docker run -it -v `pwd`/src/:/execs -v `pwd`/datas/:/datas --link coursestovacuum_redis_1:REDIS_1 --link coursestovacuum_mongod_1:MONGOD_1 --link coursestovacuum_elastic_1:ELASTIC_1 coursestovacuum_sidekiq /sbin/my_init -- /bin/bash -l
+sidekiq:
+  build: ./sidekiq
+  volumes:
+    - ./datas:/datas
+    - ./src:/execs
   links:
     - mongod
     - elastic

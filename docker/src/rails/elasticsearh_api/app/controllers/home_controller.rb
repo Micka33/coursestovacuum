@@ -25,6 +25,42 @@ class HomeController < ApplicationController
     render json: {jobs_left: njobs}
   end
 
+  def what_is_this_job
+    job_id = params[:jid]
+    job = nil
+    $REDIS_POOL.with do |redis|
+      job = JSON.parse(redis.HGET('coursestovacuum_jobs', job_id))
+    end
+    return render json: {id:job_id, state:job["state"], job: job["bin"]+' '+job["params"].join(' ')} unless job.nil?
+    render json: {id:job_id, err: "Not Found"} 
+  end
+
+  def ignore_a_job
+    job_id = params[:jid]
+    job = nil
+    $REDIS_POOL.with do |redis|
+      job = JSON.parse(redis.HGET('coursestovacuum_jobs', job_id))
+      job['state'] = 'ignored'
+      redis.HSET('coursestovacuum_jobs', job_id, JSON.dump(job))
+    end
+    return render json: {id:job_id, state:job['state'], job: job["bin"]+' '+job["params"].join(' ')} unless job.nil?
+    render json: {id:job_id, err: "Not Found"} 
+  end
+
+  def list_all_ignored_job
+    jobs = nil
+    $REDIS_POOL.with do |redis|
+      jobs = redis.HKEYS('coursestovacuum_jobs').map { |job_id|
+        unless job_id.nil?
+          job = JSON.parse(redis.HGET('coursestovacuum_jobs', job_id))
+          job if job['state'] == 'ignored'
+        end
+      }.compact
+    end
+    return render json: {ignored_jobs:jobs} unless jobs.nil? || jobs.empty?
+    render json: {ignored_jobs: "No job Found"}
+  end
+
   private
 
   def search_params

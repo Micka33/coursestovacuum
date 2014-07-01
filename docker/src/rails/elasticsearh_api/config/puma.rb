@@ -4,7 +4,7 @@
 ## These, are custom vars
 ##
 application_path = (File.expand_path File.dirname(__FILE__)) + '/..'
-railsenv = "production"
+railsenv = "development"
 
 ## The directory to operate out of.
 ##
@@ -16,7 +16,7 @@ directory application_path
 ##
 ## The default is “development”.
 ##
-environment "production"
+environment railsenv
 
 # -*- coding: utf-8 -*-
 ## Configure “min” to be the minimum number of threads to use to answer

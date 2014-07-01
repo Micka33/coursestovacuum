@@ -42,7 +42,6 @@ end
 # Use debugger
 # gem 'debugger', group: [:development, :test]
 
-
 gem 'mongoid', git: 'git://github.com/mongoid/mongoid.git'
 
 gem 'bson_ext'

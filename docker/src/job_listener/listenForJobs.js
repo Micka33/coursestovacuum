@@ -43,14 +43,14 @@ function launch_job(opts, done)
             R.on('exit' ,function(code)
             {
                 log('got exit code: '+code);
-                if (opts.key != 'none')// If we are not executing [getSubtitles.rb]
-                    commander_redis.HDEL('coursestovacuum_jobs', [opts.key], function(err, nb_affected_rows) {
-                        log('['+opts.key+'] is done.('+err+', '+nb_affected_rows+')');
-                        commander_redis.HLEN('coursestovacuum_jobs', function(err, len) {
-                            if (len == 0)
-                                queue_job({params: '../getSubtitles.rb', bin: 'ruby', key:'none'});
-                        });
-                    });
+                // if (opts.key != 'none')// If we are not executing [getSubtitles.rb]
+                //     commander_redis.HDEL('coursestovacuum_jobs', [opts.key], function(err, nb_affected_rows) {
+                //         log('['+opts.key+'] is done.('+err+', '+nb_affected_rows+')');
+                //         commander_redis.HLEN('coursestovacuum_jobs', function(err, len) {
+                //             if (len == 0)
+                //                 queue_job({params: '../getSubtitles.rb', bin: 'ruby', key:'none'});
+                //         });
+                //     });
                 if(code==1) {
                     done();
                 }

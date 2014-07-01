@@ -20,10 +20,11 @@ WORKDIR    /install/node-v0.10.29-linux-x64
 RUN        ln -s `pwd`/bin/node /usr/bin/node && ln -s `pwd`/bin/npm /usr/bin/npm
 
 
+# mv /etc/service/rails/run /etc/service/rails/run_ODL
+
 # Creates railsserver Service
 RUN        mkdir -p /etc/service/rails
 RUN        echo "#!/bin/sh -e\nchmod +x /datas/config/rails_server.sh\nln -s /datas/config/rails_server.sh /etc/service/rails/run\n" > /etc/rc.local
-# RUN        echo "#!/bin/sh -e\ncd /datas/node/; npm install;\n" >> /etc/rc.local
 
 # Defines /root as the base directory when inspecting
 WORKDIR    /root

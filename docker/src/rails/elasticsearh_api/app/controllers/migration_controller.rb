@@ -87,8 +87,25 @@ class MigrationController < ApplicationController
       DownloadVideo.perform_async(course._id.to_s)
       nb_worker += 1
     end
-    render json: {nb_worker:nb_worker}
+    render json: {nb_workers_to_get_videos:nb_worker}
   end
+
+
+
+
+
+  def create_video_thumbnails
+    nb_worker = 0
+    Course.all.each do |course|
+      course.update_attributes(video_thumbnail_url: nil)
+    end
+    Course.all.each do |course|
+      CreateVideoThumbnail.perform_async(course._id.to_s)
+      nb_worker += 1
+    end
+    render json: {nb_workers_to_get_thumbnails:nb_worker}
+  end
+
 
 
 end
