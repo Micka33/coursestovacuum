@@ -8,7 +8,10 @@ class HomeController < ApplicationController
   end
 
   def search
-    render json: {params: search_params, result:Mongoid::Elasticsearch.search(search_params)}
+    nb_videos = 0
+    courses = Mongoid::Elasticsearch.search(search_params)
+    courses.each { |c| nb_videos += 1 unless c.video_url.nil? || c.video_url.empty? }
+    render json: {nb_courses:courses.length, nb_videos:nb_videos, courses:courses}
   end
 
   def import_json_file
