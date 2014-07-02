@@ -6,6 +6,9 @@ ElasticsearhApi::Application.routes.draw do
   root 'home#index'
 
   get 'search/:q' => 'home#search'
+  
+  get 'migration/create_video_thumbnails' => 'migration#create_video_thumbnails'
+
   # get 'import_json_file' => 'home#import_json_file'
 
   # get 'migration/start' => 'migration#start'
