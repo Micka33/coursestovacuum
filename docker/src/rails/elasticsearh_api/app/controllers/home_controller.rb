@@ -32,7 +32,8 @@ class HomeController < ApplicationController
     job_id = params[:jid]
     job = nil
     $REDIS_POOL.with do |redis|
-      job = JSON.parse(redis.HGET('coursestovacuum_jobs', job_id))
+      job = redis.HGET('coursestovacuum_jobs', job_id)
+      job = JSON.parse(job) unless job.nil?
     end
     return render json: {id:job_id, state:job["state"], job: job["bin"]+' '+job["params"].join(' ')} unless job.nil?
     render json: {id:job_id, err: "Not Found"} 
@@ -42,9 +43,12 @@ class HomeController < ApplicationController
     job_id = params[:jid]
     job = nil
     $REDIS_POOL.with do |redis|
-      job = JSON.parse(redis.HGET('coursestovacuum_jobs', job_id))
-      job['state'] = 'ignored'
-      redis.HSET('coursestovacuum_jobs', job_id, JSON.dump(job))
+      job = redis.HGET('coursestovacuum_jobs', job_id)
+      unless job.nil?
+        job = JSON.parse(job)
+        job['state'] = 'ignored'
+        redis.HSET('coursestovacuum_jobs', job_id, JSON.dump(job))
+      end
     end
     return render json: {id:job_id, state:job['state'], job: job["bin"]+' '+job["params"].join(' ')} unless job.nil?
     render json: {id:job_id, err: "Not Found"} 
@@ -55,8 +59,11 @@ class HomeController < ApplicationController
     $REDIS_POOL.with do |redis|
       jobs = redis.HKEYS('coursestovacuum_jobs').map { |job_id|
         unless job_id.nil?
-          job = JSON.parse(redis.HGET('coursestovacuum_jobs', job_id))
-          job if job['state'] == 'ignored'
+          job = redis.HGET('coursestovacuum_jobs', job_id)
+          unless job.nil?
+            job = JSON.parse(job)
+            job if job['state'] == 'ignored'
+          end
         end
       }.compact
     end

@@ -79,3 +79,14 @@ sidekiq:
     - mongod
     - elastic
     - redis
+
+# sudo docker run -it -v `pwd`/src/:/execs -v `pwd`/datas/:/datas --link coursestovacuum_redis_1:REDIS_1 --link coursestovacuum_mongod_1:MONGOD_1 --link coursestovacuum_elastic_1:ELASTIC_1 coursestovacuum_sidekiq /sbin/my_init -- /bin/bash -l
+nginx:
+  build: ./nginx
+  volumes:
+    - ./datas:/datas
+    - ./src:/execs
+  links:
+    - mongod
+    - elastic
+    - redis

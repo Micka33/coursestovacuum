@@ -97,6 +97,26 @@ In either way you can use this command :
 /docker/>
 ```
 
+#### PhantomJS fail on a job, how to ignore it
+When using vagrant, consult the following url (Adapt the IP adress if your not using vagrant) :
+```
+http://172.17.8.100:8282/ignore_a_job/c2981c929c429be3cd893be60737df45
+```
+
+In either way you can use this command :
+```bash
+/docker/> curl http://`sudo docker inspect -f "{{ .NetworkSettings.IPAddress }}" coursestovacuum_railsserver_1`:8282/ignore_a_job/c2981c929c429be3cd893be60737df45
+{"jobs_left":0}
+/docker/>
+```
+
+`c2981c929c429be3cd893be60737df45` being the job's id.  
+When PhantomJS get stucked on a job, find the first line looking like the one below, ignore it with the url and relaunch using `sudo fig up -d job`
+```bash
+job_1 | [9:01:59 am] running c2981c929c429be3cd893be60737df45
+```
+
+
 #### Migrate the datas from redis to mongod (indexed in elasticsearch)
 When using vagrant, consult the following url (Adapt the IP adress if your not using vagrant) :
 ```

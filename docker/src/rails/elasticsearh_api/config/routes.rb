@@ -16,6 +16,7 @@ ElasticsearhApi::Application.routes.draw do
 
   get 'migration/start' => 'migration#start'
   get 'migration/download_videos' => 'migration#download_videos'
+  get 'migration/create_video_thumbnails' => 'migration#create_video_thumbnails'
 
 
   # Example of regular route:
