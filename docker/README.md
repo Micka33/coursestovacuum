@@ -1,25 +1,23 @@
-# LAUNCH THE DOCKERs!!
-
-## Dependencies
+# Dependencies
 
 1. Docker ([https://docs.docker.com/installation/](https://docs.docker.com/installation/))
 2. Fig ([http://orchardup.github.io/fig/install.html](http://orchardup.github.io/fig/install.html))
 
-## Build them
+# Build them
 
 ```bash
 /docker/> sudo fig build
 ```
 
-## Run it !
+# Run it !
 
 The whole process takes up to a day (easy).  
 
-### SHORT VERSION
+## SHORT VERSION
 
 ```bash
 /docker/> sudo fig up -d mongod elastic redis
-/docker/> sudo fig up -d job nodeserver railsserver sidekiq
+/docker/> sudo fig up -d job nodeserver railsserver sidekiq nginx
 /docker/> sudo fig up firstjob
 #wait for the job container to be done (0 jobs left)
 /docker/> curl http://`sudo docker inspect -f "{{ .NetworkSettings.IPAddress }}" coursestovacuum_railsserver_1`:8282/how_many_jobs_left
@@ -31,7 +29,7 @@ The whole process takes up to a day (easy).
 # You can now request the rails API!
 ```
 
-### LONG VERSION
+## LONG VERSION
 
 ### Get the courses
 
@@ -77,10 +75,11 @@ To by-pass the problem, you need to stop and relaunch the [job listener][job] co
 
 ### Get the rails api to work (when all jobs are done)
 
-First launch the [railsserver](https://github.com/Micka33/coursestovacuum/tree/Docker/docker/src/rails/elasticsearh_api).  
+First launch the [railsserver](https://github.com/Micka33/coursestovacuum/tree/Docker/docker/src/rails/elasticsearh_api), then sidekiq and nginx.  
 
 ```bash
-/docker/> sudo fig up -d railsserver sidekiq
+/docker/> sudo fig up -d railsserver
+/docker/> sudo fig up -d sidekiq nginx
 ```
 
 
@@ -130,7 +129,7 @@ In either way you can use this command :
 /docker/>
 ```
 
-#### download the associated videos
+#### download the associated videos (Once all datas are migrated)
 When using vagrant, consult the following url (Adapt the IP adress if your not using vagrant) :
 ```
 http://172.17.8.100:8282/migration/download_videos
@@ -142,6 +141,20 @@ In either way you can use this command :
 {created:...}
 /docker/>
 ```
+
+#### generate the thumbnails (Once all videos are downloaded)
+When using vagrant, consult the following url (Adapt the IP adress if your not using vagrant) :
+```
+http://172.17.8.100:8282/migration/create_video_thumbnails
+```
+
+In either way you can use this command :
+```bash
+/docker/> curl http://`sudo docker inspect -f "{{ .NetworkSettings.IPAddress }}" coursestovacuum_railsserver_1`:8282/migration/create_video_thumbnails
+{created:...}
+/docker/>
+```
+
 
 ### Request the rails api
 

@@ -115,7 +115,7 @@ stdout_redirect "#{application_path}/log/puma_#{railsenv}_stdout", "#{applicatio
 ##
 # bind "tcp://127.0.0.1:3000"
 # bind "unix:///#{application_path}/tmp/sockets/#{railsenv}.sock"
-bind "tcp://0.0.0.0:8282"
+bind "tcp://0.0.0.0:80"
 
 
 ## Instead of “bind 'ssl://127.0.0.1:9292?key=path_to_key&cert=path_to_cert'” you

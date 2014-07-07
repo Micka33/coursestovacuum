@@ -20,15 +20,16 @@ WORKDIR    /install/node-v0.10.29-linux-x64
 RUN        ln -s `pwd`/bin/node /usr/bin/node && ln -s `pwd`/bin/npm /usr/bin/npm
 
 
-# mv /etc/service/rails/run /etc/service/rails/run_ODL
+# Installs FFMPEG
+RUN       apt-get -y install libav-tools x264 libx264-dev
 
-# Creates railsserver Service
-RUN        mkdir -p /etc/service/rails
-RUN        echo "#!/bin/sh -e\nchmod +x /datas/config/rails_server.sh\nln -s /datas/config/rails_server.sh /etc/service/rails/run\n" > /etc/rc.local
+
+# # Creates sidekiq Service
+RUN        mkdir -p /etc/service/sidekiq
+RUN        echo "#!/bin/sh -e\nchmod +x /datas/config/sidekiq.sh\nln -s /datas/config/sidekiq.sh /etc/service/sidekiq/run\n" > /etc/rc.local
 
 # Defines /root as the base directory when inspecting
 WORKDIR    /root
 
-EXPOSE     80
 # Cleans up APT when done.
 RUN        apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
