@@ -38,14 +38,14 @@ function launch_job(opts, done)
         if (err == null) {
             var R = spawn(bin, params, {cwd: __dirname,env: process.env});
             var watchout = function(buf) {
-                if (buf.indexOf('SyntaxError: Parse error') > -1) {
+                log(buf);
+                if ((typeof buf == "string") && (buf.indexOf('SyntaxError: Parse error') > -1)) {
                     opts.state = 'ignored';
                     commander_redis.HSET('coursestovacuum_jobs', opts.key, JSON.stringify(opts), function(err, nb_affected_rows) {
                       log('['+opts.key+'] is ignored.('+buf+', '+nb_affected_rows+')');
                     });
                     done();
                 }
-                log(buf);
             };
             R.stdout.on('data',watchout);
             R.stderr.on('data',watchout);
