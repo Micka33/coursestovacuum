@@ -29,9 +29,10 @@ RUN        ln -s `pwd`/bin/phantomjs /usr/bin/
 WORKDIR    /root
 
 RUN        echo "\n\nexport LC_CTYPE=en_US.UTF-8\n" >> /root/.bashrc
-RUN        echo "#!/bin/sh -e\ncd /datas/; npm install;cd /datas/node/; npm install;\n" >> /etc/rc.local
+COPY       package.json /root/package.json
+RUN        npm install && rm /root/package.json
 
-ENTRYPOINT node /datas/job_listener/listenForJobs.js
+ENTRYPOINT node /execs/job_listener/listenForJobs.js
 
 # Cleans up APT when done.
 RUN        apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*

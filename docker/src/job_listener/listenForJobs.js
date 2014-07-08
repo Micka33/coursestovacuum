@@ -8,7 +8,7 @@ var _                 = require('underscore'),
 
 //Configuation
 var courses_jobs_key  = 'coursestovacuum_jobs',
-    redis_conf        = yaml.safeLoad(fs.readFileSync('/datas/node/redis.yml', 'utf8')),
+    redis_conf        = yaml.safeLoad(fs.readFileSync('/execs/node/redis.yml', 'utf8')),
     node_env          = process.env.NODE_ENV                            || 'development',
     port              = process.env.REDIS_1_PORT_6379_TCP_PORT          || redis_conf[node_env]['port'],
     host              = process.env.REDIS_1_PORT_6379_TCP_ADDR          || redis_conf[node_env]['host'],
