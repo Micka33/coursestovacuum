@@ -28,11 +28,11 @@ RUN        ln -s `pwd`/bin/phantomjs /usr/bin/
 # Defines /root as the base directory when inspecting
 WORKDIR    /root
 
-RUN        echo "\n\nexport LC_CTYPE=en_US.UTF-8\n" >> /root/.bashrc
-COPY       package.json /root/package.json
-RUN        npm install && rm /root/package.json
+# Creates railsserver Service
+RUN        mkdir -p /etc/service/job && \
+           echo "\n\nexport LC_CTYPE=en_US.UTF-8\n" >> /root/.bashrc && \
+           echo "#!/bin/sh -e\nchmod +x /datas/config/job.sh\nln -s /datas/config/job.sh /etc/service/job/run\n" > /etc/rc.local
 
-ENTRYPOINT node /execs/job_listener/listenForJobs.js
 
 # Cleans up APT when done.
 RUN        apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
