@@ -81,7 +81,7 @@ sidekiq:
     - elastic
     - redis
 
-# sudo docker run -it -p 8282:8282 -v `pwd`/src/:/execs -v `pwd`/datas/:/datas --link coursestovacuum_railsserver_1:RAILSSERVER_1 coursestovacuum_nginx /sbin/my_init -- /bin/bash -l
+# sudo docker run -it -p 80:80 -v `pwd`/src/:/execs -v `pwd`/datas/:/datas --link coursestovacuum_railsserver_1:RAILSSERVER_1 coursestovacuum_nginx /sbin/my_init -- /bin/bash -l
 nginx:
   build: ./nginx
   volumes:
