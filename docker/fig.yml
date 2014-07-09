@@ -90,4 +90,4 @@ nginx:
   links:
     - railsserver
   ports:
-    - "8282:8282"
+    - "80:80"

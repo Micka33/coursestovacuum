@@ -27,13 +27,6 @@ RUN        ln -s `pwd`/bin/phantomjs /usr/bin/
 
 RUN        echo "\n\nexport LC_CTYPE=en_US.UTF-8\n" >> /root/.bashrc
 
-
-# Installs dependencies
-WORKDIR    /install
-ADD        package.json /install/package.json
-RUN        npm install
-
-
 # Defines /root as the base directory when inspecting
 WORKDIR    /root
 
