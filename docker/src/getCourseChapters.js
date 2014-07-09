@@ -212,7 +212,8 @@ var getCourseLinks = function()
                 params: ['../getChapterContent.js','--link', links[i]]
               });
   };
-  log("gonna run: "+cmds[0].params.join(" "));
+  if ((typeof cmds[0] != 'undefined') && (cmds[0] != null) && (typeof cmds[0].params != 'undefined') && (cmds[0].params != null))
+    log("gonna run: "+cmds[0].params.join(" "));
   sendCmds(cmds);
 }
 var crawl = function()
