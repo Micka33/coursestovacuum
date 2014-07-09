@@ -18,21 +18,26 @@ RUN        (wget http://nodejs.org/dist/v0.10.29/node-v0.10.29-linux-x64.tar.gz)
 WORKDIR    /install/node-v0.10.29-linux-x64
 RUN        ln -s `pwd`/bin/node /usr/bin/node && ln -s `pwd`/bin/npm /usr/bin/npm
 
-# installs PhantomJS
+# Installs PhantomJS
 WORKDIR    /install
 RUN        wget https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-1.9.7-linux-x86_64.tar.bz2  && tar -xjf phantomjs-1.9.7-linux-x86_64.tar.bz2 && rm phantomjs-1.9.7-linux-x86_64.tar.bz2
 WORKDIR    /install/phantomjs-1.9.7-linux-x86_64
 RUN        ln -s `pwd`/bin/phantomjs /usr/bin/
 
 
+RUN        echo "\n\nexport LC_CTYPE=en_US.UTF-8\n" >> /root/.bashrc
+
+
+# Installs dependencies
+WORKDIR    /install
+ADD        package.json /install/package.json
+RUN        npm install
+
+
 # Defines /root as the base directory when inspecting
 WORKDIR    /root
 
-# Creates railsserver Service
-RUN        mkdir -p /etc/service/job && \
-           echo "\n\nexport LC_CTYPE=en_US.UTF-8\n" >> /root/.bashrc && \
-           echo "#!/bin/sh -e\nchmod +x /datas/config/job.sh\nln -s /datas/config/job.sh /etc/service/job/run\n" > /etc/rc.local
-
+ENTRYPOINT node /execs/job_listener/listenForJobs.js
 
 # Cleans up APT when done.
 RUN        apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
