@@ -1,0 +1,113 @@
+<mockup version="1.0" skin="sketch" fontFace="Balsamiq Sans" measuredW="1390" measuredH="770" mockupW="1366" mockupH="738">
+  <controls>
+    <control controlID="2" controlTypeID="com.balsamiq.mockups::FieldSet" x="24" y="32" w="1366" h="738" measuredW="200" measuredH="170" zOrder="0" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Ubuntu</text>
+      </controlProperties>
+    </control>
+    <control controlID="3" controlTypeID="com.balsamiq.mockups::FieldSet" x="779" y="316" w="-1" h="-1" measuredW="200" measuredH="170" zOrder="1" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Docker%204</text>
+      </controlProperties>
+    </control>
+    <control controlID="4" controlTypeID="com.balsamiq.mockups::FieldSet" x="779" y="571" w="-1" h="-1" measuredW="200" measuredH="170" zOrder="2" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Docker%205</text>
+      </controlProperties>
+    </control>
+    <control controlID="5" controlTypeID="com.balsamiq.mockups::FieldSet" x="779" y="67" w="-1" h="-1" measuredW="200" measuredH="170" zOrder="3" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Docker%203</text>
+      </controlProperties>
+    </control>
+    <control controlID="7" controlTypeID="com.balsamiq.mockups::FieldSet" x="436" y="316" w="-1" h="-1" measuredW="200" measuredH="170" zOrder="4" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Docker%202</text>
+      </controlProperties>
+    </control>
+    <control controlID="8" controlTypeID="com.balsamiq.mockups::FieldSet" x="1120" y="316" w="-1" h="-1" measuredW="200" measuredH="170" zOrder="5" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Docker%209</text>
+      </controlProperties>
+    </control>
+    <control controlID="10" controlTypeID="com.balsamiq.mockups::FieldSet" x="110" y="319" w="-1" h="-1" measuredW="200" measuredH="170" zOrder="6" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Docker%201</text>
+      </controlProperties>
+    </control>
+    <control controlID="12" controlTypeID="com.balsamiq.mockups::Image" x="800" y="335" w="158" h="133" measuredW="308" measuredH="260" zOrder="7" locked="false" isInGroup="-1">
+      <controlProperties>
+        <src>./assets/redis_logo.png</src>
+      </controlProperties>
+    </control>
+    <control controlID="13" controlTypeID="com.balsamiq.mockups::Image" x="810" y="627" w="147" h="58" measuredW="2517" measuredH="741" zOrder="8" locked="false" isInGroup="-1">
+      <controlProperties>
+        <src>./assets/MongoDB_Logo.png</src>
+      </controlProperties>
+    </control>
+    <control controlID="14" controlTypeID="com.balsamiq.mockups::Image" x="799" y="122" w="160" h="60" measuredW="599" measuredH="186" zOrder="9" locked="false" isInGroup="-1">
+      <controlProperties>
+        <src>./assets/elasticsearch_logo.png</src>
+      </controlProperties>
+    </control>
+    <control controlID="16" controlTypeID="com.balsamiq.mockups::Image" x="486" y="347" w="108" h="121" measuredW="316" measuredH="376" zOrder="10" locked="false" isInGroup="-1">
+      <controlProperties>
+        <src>./assets/Ruby_on_Rails-logo.png</src>
+      </controlProperties>
+    </control>
+    <control controlID="18" controlTypeID="com.balsamiq.mockups::Image" x="1149" y="366" w="142" h="70" measuredW="477" measuredH="145" zOrder="11" locked="false" isInGroup="-1">
+      <controlProperties>
+        <src>./assets/Screen%2520Shot%25202014-07-09%2520at%252017.34.55.png</src>
+      </controlProperties>
+    </control>
+    <control controlID="20" controlTypeID="com.balsamiq.mockups::Image" x="126" y="384" w="162" h="41" measuredW="2941" measuredH="609" zOrder="12" locked="false" isInGroup="-1">
+      <controlProperties>
+        <src>./assets/nginx_logo.png</src>
+      </controlProperties>
+    </control>
+    <control controlID="22" controlTypeID="com.balsamiq.mockups::Arrow" x="976" y="404" w="147" h="10" measuredW="150" measuredH="100" zOrder="13" locked="false" isInGroup="-1">
+      <controlProperties>
+        <leftArrow>true</leftArrow>
+        <rightArrow>true</rightArrow>
+        <text/>
+      </controlProperties>
+    </control>
+    <control controlID="23" controlTypeID="com.balsamiq.mockups::Arrow" x="634" y="405" w="147" h="10" measuredW="150" measuredH="100" zOrder="14" locked="false" isInGroup="-1">
+      <controlProperties>
+        <leftArrow>false</leftArrow>
+        <rightArrow>true</rightArrow>
+        <text/>
+      </controlProperties>
+    </control>
+    <control controlID="25" controlTypeID="com.balsamiq.mockups::Arrow" x="636" y="151" w="145" h="263" measuredW="150" measuredH="100" zOrder="15" locked="false" isInGroup="-1">
+      <controlProperties>
+        <direction>bottom</direction>
+        <leftArrow>false</leftArrow>
+        <rightArrow>true</rightArrow>
+        <text/>
+      </controlProperties>
+    </control>
+    <control controlID="26" controlTypeID="com.balsamiq.mockups::Arrow" x="636" y="414" w="145" h="245" measuredW="150" measuredH="100" zOrder="16" locked="false" isInGroup="-1">
+      <controlProperties>
+        <curvature>-1</curvature>
+        <leftArrow>false</leftArrow>
+        <rightArrow>true</rightArrow>
+        <text/>
+      </controlProperties>
+    </control>
+    <control controlID="29" controlTypeID="com.balsamiq.mockups::Arrow" x="310" y="399" w="128" h="10" measuredW="150" measuredH="100" zOrder="17" locked="false" isInGroup="-1">
+      <controlProperties>
+        <leftArrow>true</leftArrow>
+        <rightArrow>true</rightArrow>
+        <text/>
+      </controlProperties>
+    </control>
+    <control controlID="33" controlTypeID="com.balsamiq.mockups::Arrow" x="30" y="395" w="82" h="10" measuredW="150" measuredH="100" zOrder="18" locked="false" isInGroup="-1">
+      <controlProperties>
+        <leftArrow>true</leftArrow>
+        <rightArrow>true</rightArrow>
+        <text/>
+      </controlProperties>
+    </control>
+  </controls>
+</mockup>
