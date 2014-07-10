@@ -45,7 +45,7 @@
         <src>./assets/nodeJs_log.png</src>
       </controlProperties>
     </control>
-    <control controlID="27" controlTypeID="com.balsamiq.mockups::Arrow" x="496" y="137" w="120" h="179" measuredW="150" measuredH="100" zOrder="9" locked="false" isInGroup="-1">
+    <control controlID="27" controlTypeID="com.balsamiq.mockups::Arrow" x="492" y="137" w="122" h="179" measuredW="150" measuredH="100" zOrder="9" locked="false" isInGroup="-1">
       <controlProperties>
         <curvature>1</curvature>
         <direction>bottom</direction>
@@ -91,7 +91,7 @@
         <text/>
       </controlProperties>
     </control>
-    <control controlID="38" controlTypeID="com.balsamiq.mockups::FieldSet" x="27" y="415" w="-1" h="-1" measuredW="200" measuredH="170" zOrder="15" locked="false" isInGroup="-1">
+    <control controlID="38" controlTypeID="com.balsamiq.mockups::FieldSet" x="27" y="403" w="-1" h="-1" measuredW="200" measuredH="170" zOrder="15" locked="false" isInGroup="-1">
       <controlProperties>
         <text>Open%20EDX</text>
       </controlProperties>
@@ -114,10 +114,9 @@
         <text/>
       </controlProperties>
     </control>
-    <control controlID="41" controlTypeID="com.balsamiq.mockups::Label" x="51" y="480" w="-1" h="-1" measuredW="153" measuredH="40" zOrder="18" locked="false" isInGroup="-1">
+    <control controlID="43" controlTypeID="com.balsamiq.mockups::Image" x="39" y="462" w="171" h="53" measuredW="450" measuredH="91" zOrder="18" locked="false" isInGroup="-1">
       <controlProperties>
-        <size>32</size>
-        <text>Open%20EDX</text>
+        <src>./assets/logo-edx-openedx.png</src>
       </controlProperties>
     </control>
   </controls>
