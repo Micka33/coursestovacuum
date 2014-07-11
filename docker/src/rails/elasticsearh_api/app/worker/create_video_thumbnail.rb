@@ -9,13 +9,16 @@ class CreateVideoThumbnail
 
     if  (course.video_thumbnail_url.nil? || course.video_thumbnail_url.empty?) &&
         (!course.video_url.nil? && !course.video_url.empty?)
-      video_duration = `avprobe -loglevel error -show_streams 537f66f76b73334071100000_mp4_h264_aac_hd.mp4 | grep duration | cut -f 2 -d = | cut -f 1 -d . | head -1`.strip
-      if exec(`avconv -y -ss #{(video_duration.to_i / 2).round} -i #{"./tmp/videos/"+course.video_url} -vframes 1 -f image2 #{path+'/'+output_document} 2>&1`) == true
+      puts "(#{course.video_thumbnail_url.to_s}.nil? || #{course.video_thumbnail_url.to_s}.empty?) && (!#{course.video_url.to_s}.nil? && !#{course.video_url.to_s}.empty?)"
+      video_duration = `avprobe -loglevel error -show_streams #{"./tmp/videos/"+course.video_url} | grep duration | cut -f 2 -d = | cut -f 1 -d . | head -1`.strip
+      if (exec(`avconv -y -ss #{(video_duration.to_i / 2).round} -i #{"./tmp/videos/"+course.video_url} -vframes 1 -f image2 #{path+'/'+output_document} 2>&1`) == true)
         Course.find(course_id).update_attributes(video_thumbnail_url: output_document)
       else
+        puts "rm #{path+'/'+output_document}"
         `rm #{path+'/'+output_document}`
       end
     end
+    puts "DONE"
   end
 
 end
