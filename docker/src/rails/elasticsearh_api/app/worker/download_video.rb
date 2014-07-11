@@ -10,6 +10,11 @@ class DownloadVideo
     if course.video_url.nil? || course.video_url.empty? || (`stat -c %s #{path+'/'+output_document}`.strip.to_i == 0)
       `wget --output-document="#{path+'/'+output_document}" #{course.video_url_ori}`
       Course.find(course_id).update_attributes(video_url: output_document)
+
+      if (`stat -c %s #{path+'/'+output_document}`.strip.to_i == 0)
+        `rm #{path+'/'+output_document}`
+        Course.find(course_id).update_attributes(video_url: nil)
+      end
     end
 
 

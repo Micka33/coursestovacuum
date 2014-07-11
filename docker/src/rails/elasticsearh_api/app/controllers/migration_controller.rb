@@ -87,10 +87,6 @@ class MigrationController < ApplicationController
     render json: {nb_workers_to_get_videos:nb_worker}
   end
 
-
-
-
-
   def create_video_thumbnails
     nb_worker = 0
     Course.all.each do |course|
