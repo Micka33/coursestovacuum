@@ -81,9 +81,6 @@ class MigrationController < ApplicationController
   def download_videos
     nb_worker = 0
     Course.all.each do |course|
-      course.update_attributes(video_url: nil)
-    end
-    Course.all.each do |course|
       DownloadVideo.perform_async(course._id.to_s)
       nb_worker += 1
     end
