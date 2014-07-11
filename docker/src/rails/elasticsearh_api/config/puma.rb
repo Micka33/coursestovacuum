@@ -4,7 +4,7 @@
 ## These, are custom vars
 ##
 application_path = (File.expand_path File.dirname(__FILE__)) + '/..'
-railsenv = "development"
+railsenv = "production"
 
 ## The directory to operate out of.
 ##
