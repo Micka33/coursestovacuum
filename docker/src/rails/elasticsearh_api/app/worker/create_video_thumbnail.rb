@@ -13,7 +13,7 @@ class CreateVideoThumbnail
       puts "avprobe -loglevel error -show_streams \"#{"./tmp/videos/"+course.video_url}\" | grep duration | cut -f 2 -d = | cut -f 1 -d . | head -1"
       video_duration = `avprobe -loglevel error -show_streams "#{"./tmp/videos/"+course.video_url}" | grep duration | cut -f 2 -d = | cut -f 1 -d . | head -1`.strip
       puts "avconv -y -ss #{(video_duration.to_i / 2).round} -i \"#{"./tmp/videos/"+course.video_url}\" -vframes 1 -f image2 \"#{path+'/'+output_document}\" 2>&1"
-      if (exec(`avconv -y -ss #{(video_duration.to_i / 2).round} -i "#{"./tmp/videos/"+course.video_url}" -vframes 1 -f image2 "#{path+'/'+output_document}" 2>&1`) == true)
+      if (system(`avconv -y -ss #{(video_duration.to_i / 2).round} -i "#{"./tmp/videos/"+course.video_url}" -vframes 1 -f image2 "#{path+'/'+output_document}" 2>&1`) == true)
         Course.find(course_id).update_attributes(video_thumbnail_url: output_document)
       else
         puts "rm #{path+'/'+output_document}"
